@@ -28,6 +28,4 @@ config.plugins = [
   '@semantic-release/commit-analyzer',
 ];
 
-console.log(config);
-
 module.exports = config;
