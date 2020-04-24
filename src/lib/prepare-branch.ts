@@ -1,36 +1,50 @@
-import { ExtendedContext, Meta, ExtendedConfig } from '../types';
-import {
-  currentHead,
-  checkout,
-  push,
-  pull,
-  rebase,
-  branchExists,
-} from '../lib/git';
+import { Context, Meta, Config } from '../types';
+import { currentHead, checkout, push, pull, rebase, branchExists } from './git';
 
-async function analyzeCommits(
-  pluginConfig: ExtendedConfig,
-  context: ExtendedContext,
+/**
+ * Prepare creates and checks out to dummyBranch.
+ * and adds data to meta
+ */
+export default async function prepareBranch(
+  pluginConfig: Config,
+  context: Context,
   meta: Meta = {},
 ) {
   const {
-    envCi: { prBranch, branch },
     options: { repositoryUrl },
+    envCi: { prBranch, branch },
     logger,
   } = context;
-  const { baseBranch = branch, headBranch = prBranch } = pluginConfig;
+  // Branches were verified at `verify` step and must be string here
+  const {
+    baseBranch = branch as string,
+    headBranch = prBranch as string,
+  } = pluginConfig;
 
   if (!meta.verified) {
-    logger.info('Skipping CHANGELOG update.');
+    logger.info(
+      'Skipping CHANGELOG update (step verifyConditions did not pass).',
+    );
     return;
   }
 
+  meta.baseBranch = baseBranch;
+  meta.headBranch = headBranch;
+
   // To avoid errors if this script was started in a different branch, save its
   // name so we can restore it later.
-  const initHead = (await currentHead(undefined, context)) || '';
+  meta.initHead = await currentHead({}, context);
 
-  // Prepare the branch that has the changes that are to be applied in PR
-  await pull({ from: headBranch, to: headBranch }, context);
+  // Prepare the branch that will have commits from both base and head branches
+  await checkout({ to: headBranch, create: true, existOk: true });
+  await pull(
+    {
+      from: headBranch,
+      to: headBranch,
+      remote: repositoryUrl,
+    },
+    context,
+  );
 
   // Make a dummy branch from the pr/head branch
   const dummyBranch = (meta.dummyBranch = `temp/semantic-release/${headBranch}`);
@@ -48,6 +62,7 @@ async function analyzeCommits(
     },
     context,
   );
+
   await rebase({ onto: baseBranch }, context);
 
   // semantic-release, which we use to get and format the CHANGELOG, verifies if
@@ -62,21 +77,9 @@ async function analyzeCommits(
     context,
   );
 
-  // Return to initial commit
-  await checkout({ to: initHead }, context);
-
   // Make branch object that could be recognized by semantic-release
   const dummyBranchObj = { ...context.branch, name: dummyBranch, main: false };
   meta.branches = meta.branches || context.branches || [];
   meta.branches.push(dummyBranchObj);
   meta.branch = dummyBranchObj;
-}
-
-export default function getAnalyzeCommits(meta: Meta = {}) {
-  return async function analyzeWrapper(
-    pluginConfig: ExtendedConfig,
-    context: ExtendedContext,
-  ) {
-    return analyzeCommits(pluginConfig, context, meta);
-  };
 }

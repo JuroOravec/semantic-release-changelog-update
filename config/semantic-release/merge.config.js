@@ -1,3 +1,4 @@
+// @ts-nocheck
 const defaultConfig = require('./config');
 
 const config = {

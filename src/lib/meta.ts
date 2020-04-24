@@ -1,7 +1,7 @@
 import { Branch, Meta } from '../types';
 
 // Object with default data that should be shared between plugin functions
-export default function initMeta<T extends object>(options = {} as T) {
+export function init<T extends object>(options = {} as T) {
   // Defaults from:
   // https://github.com/semantic-release/semantic-release/blob/caa3526caa686c18eb935dace80a275017746215/docs/usage/configuration.md#branches
   const defaultBranches: Branch[] = [
@@ -18,5 +18,18 @@ export default function initMeta<T extends object>(options = {} as T) {
     ...options,
   };
 
+  return meta;
+}
+
+export function clean(meta: Meta) {
+  Object.keys(meta).forEach((key: string) => {
+    delete meta[key as keyof Meta];
+  });
+  return meta;
+}
+
+export function prepare<T extends object>(meta: Meta, options?: T) {
+  clean(meta);
+  Object.assign(meta, init(options));
   return meta;
 }

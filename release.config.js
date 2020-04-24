@@ -1,3 +1,4 @@
+// @ts-nocheck
 const envCi = require('env-ci');
 
 const prConfig = require('./config/semantic-release/pr.config');

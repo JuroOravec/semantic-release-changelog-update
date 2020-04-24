@@ -1,9 +1,10 @@
-import { push } from './git';
-import { ExtendedContext, Meta, ExtendedConfig } from '../types';
+import { removeBranch } from './git';
+import { Context, Meta, Config } from '../types';
+import { clean } from './meta';
 
 export default async function cleanup(
-  pluginConfig: ExtendedConfig,
-  context: ExtendedContext,
+  pluginConfig: Config,
+  context: Context,
   meta: Meta = {},
 ) {
   const {
@@ -13,10 +14,20 @@ export default async function cleanup(
   const { dummyBranch, verified } = meta;
 
   if (!verified) {
-    logger.info('Skipping prepare-changelog cleanup.');
+    logger.info('Skipping changelog-update cleanup.');
     return;
   }
 
   // Remove the temporary branch
-  await push({ delete: dummyBranch, remote: repositoryUrl }, context);
+  if (dummyBranch) {
+    await removeBranch(
+      { branch: dummyBranch, remote: repositoryUrl, fromRemote: true },
+      context,
+    );
+  }
+
+  // Since we don't have a way to instanciate multiple plugins, the meta object
+  // is shared among all of them. So we remove the props here so the plugin can
+  // be used for the second time
+  clean(meta);
 }

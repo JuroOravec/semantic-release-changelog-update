@@ -2,10 +2,13 @@ import safeReadFile from './safe-read-file';
 
 export default async function changelogVersion(
   path: string,
-  pattern = /#+\s+\[(?<version>.*?)\]/u,
+  pattern: string | RegExp = /^#{1,2}\s*(?:\[)?(.+?)(?:\]|\s+|\()/mu,
 ) {
   const changelog = (await safeReadFile(path)) || '';
-  const match = changelog.match(pattern);
+
+  const patternRegex =
+    typeof pattern === 'string' ? new RegExp(pattern) : pattern;
+  const match = changelog.match(patternRegex);
   const version = match
     ? match.groups
       ? match.groups.version

@@ -1,18 +1,15 @@
-import { Meta, ExtendedContext, Branch } from '../types';
-import { GlobalConfig } from 'semantic-release';
+import { Meta, Context, Config, PrepareChangelogFn } from '../types';
 
-const fs = require('fs');
-const path = require('path');
-const minimatch = require('minimatch');
-const readPkgUp = require('read-pkg-up');
-const semver = require('semver');
+import fs from 'fs';
+import path from 'path';
+import minimatch from 'minimatch';
+import readPkgUp from 'read-pkg-up';
+import semver from 'semver';
 
-const safeReadFile = require('../lib/safe-read-file');
-const changelogVersion = require('../lib/changelog-version');
+import safeReadFile from '../lib/safe-read-file';
+import changelogVersion from '../lib/changelog-version';
 
 const fsp = fs.promises;
-
-type PluginConfigVerify = GlobalConfig & { releaseBranches: Branch[] };
 
 /**
  * We want to run this script only in CI when triggered by a pull request to one
@@ -26,21 +23,21 @@ type PluginConfigVerify = GlobalConfig & { releaseBranches: Branch[] };
  * to another non-release branch. So we need to verify here instead that the
  * target branch is one of release branches.
  */
-async function verifyConditions(
-  pluginConfig: PluginConfigVerify,
-  context: ExtendedContext,
+export default async function verifyConditions(
+  pluginConfig: Config,
+  context: Context,
   meta: Meta = {},
 ) {
   const {
     options: { dryRun },
-    envCi: { isPr, branch },
+    envCi: { prBranch, branch },
     logger,
   } = context;
   const {
     changelogFile = './CHANGELOG.md',
     pattern,
     baseBranch = branch,
-    headBranch,
+    headBranch = prBranch,
     releaseBranches = meta.defaultBranches!,
     prepareChangelog,
     requireDryRun = true,
@@ -59,17 +56,39 @@ async function verifyConditions(
     return;
   }
 
+  const packageJson = await readPkgUp();
+  if (!packageJson) {
+    throw Error('No package.json found, cannot determine package version');
+  }
   const {
     packageJson: { version: pkgVersion },
-  } = await readPkgUp();
+  } = packageJson;
 
   const chlogPath = (meta.changelogFile = path.resolve(
     process.cwd(),
     changelogFile,
   ));
-  const chlogVersion = await changelogVersion(chlogPath, pattern);
 
-  if (!prepareChangelog && semver.gt(chlogVersion, pkgVersion)) {
+  if (prepareChangelog) {
+    const initChlogContent = await safeReadFile(chlogPath);
+    const prepareChangelogFn =
+      typeof prepareChangelog === 'string'
+        ? (require('prepareChangelog') as PrepareChangelogFn)
+        : prepareChangelog;
+    const chlogContent = await prepareChangelogFn(
+      initChlogContent,
+      pluginConfig,
+      context,
+    );
+    await fsp.writeFile(chlogPath, chlogContent, 'utf8');
+  }
+
+  let chlogVersion = await changelogVersion(chlogPath, pattern);
+  if (!chlogVersion) {
+    throw Error('No changelog version found from ' + chlogPath);
+  }
+
+  if (semver.gt(chlogVersion, pkgVersion)) {
     logger.info(
       `CHANGELOG version ${chlogVersion} is ahead of package.json version ` +
         `${pkgVersion}. prepare-changelog will not update CHANGELOG with ` +
@@ -80,25 +99,30 @@ async function verifyConditions(
     return;
   }
 
-  if (prepareChangelog) {
-    const chlogContent = prepareChangelog(safeReadFile(chlogPath) || '');
-    await fsp.writeFile(chlogPath, chlogContent, 'utf8');
+  if (!baseBranch) {
+    throw Error(
+      'No base branch found. Was the plugin called in one of supported ' +
+        'CI environments? If not, you must provide the plugin option ' +
+        '`baseBranch`.',
+    );
   }
 
-  if (!headBranch && !isPr) {
+  if (!headBranch) {
     throw Error(
-      'Unable to find branch with new commits. prepare-changelog either ' +
-        ' needs to run in PR environment or plugin option `headBranch` must ' +
-        ' be given.',
+      'No head branch found. Was the plugin called in one of supported ' +
+        'CI environments? If not, you must provide the plugin option ' +
+        '`headBranch`.',
     );
   }
 
   // Check if the branch we want to use as a base is a release branch in
   // release environment.
-  const releaseBranchNames = releaseBranches.map(({ name }) => name);
-  const branchIsValid = releaseBranchNames.some((name) =>
-    minimatch(baseBranch, name),
+  const releaseBranchNames = releaseBranches.map((branch) =>
+    typeof branch === 'string' ? branch : branch.name,
   );
+  const branchIsValid =
+    baseBranch &&
+    releaseBranchNames.some((name) => minimatch(baseBranch, name));
 
   if (!branchIsValid) {
     logger.info(
@@ -110,13 +134,4 @@ async function verifyConditions(
   }
 
   meta.verified = true;
-}
-
-export default function getVerifyConditions(meta: Meta = {}) {
-  return async function verifyWrapper(
-    pluginConfig: PluginConfigVerify,
-    context: ExtendedContext,
-  ) {
-    return verifyConditions(pluginConfig, context, meta);
-  };
 }
