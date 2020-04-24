@@ -1,4 +1,5 @@
 import { randomBytes } from 'crypto';
+import envCi from 'env-ci';
 
 import { changelogUpdate } from '../';
 import { checkout, currentBranch, stash, status, Commit } from '../lib/git';
@@ -26,12 +27,16 @@ const prepos: { [K in chlog.TemplateTypes]: string } = {
   past: 'behind',
 };
 
+const getRemoteUrl = () =>
+  `https://${process.env.GH_TOKEN}@github.com/${process.env.GIT_USERNAME}` +
+  `/semantic-release-changelog-update.git`;
+
 describe('changelogUpdate', () => {
   /**
    * Constants
    */
   const runId = randomBytes(8).toString('hex');
-  const remote = 'origin';
+  const remote = envCi().isCi ? getRemoteUrl() : 'origin';
   const headBranch = `temp/test/${runId}/headbranch`;
   const baseBranch = `temp/test/${runId}/basebranch`;
   const otherBranch = `temp/test/${runId}/other`;

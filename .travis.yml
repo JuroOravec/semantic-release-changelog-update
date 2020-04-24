@@ -2,9 +2,9 @@ sudo: false
 
 language: node_js
 node_js:
-  # - '10'
-  # - '11'
-  # - '12'
+  - '10'
+  - '11'
+  - '12'
   - '13'
 
 before_install:
@@ -24,6 +24,8 @@ before_install:
   - git config commit.gpgsign true
   # Configure git to use your GPG key
   - git config --global user.signingkey ${GPG_KEY_ID}
+  # Tests fail if not on any branch, so move to master
+  - git checkout master
 install:
   - npm install
 before_script:
@@ -34,27 +36,27 @@ script:
 
 jobs:
   include:
-    # - stage: codecov
-    #   node_js: lts/*
-    #   script:
-    #     - npm run test:cov
+    - stage: codecov
+      node_js: lts/*
+      script:
+        - npm run test:cov
 
     - stage: update CHANGELOG.md
       if: type = pull_request
       node_js: lts/*
-      script: npx semantic-release --no-ci --dry-run
+      script: npx semantic-release # runs with PR-specific config
 
-    # - stage: release
-    #   node_js: lts/*
-    #   script: ':' # noop, skips tests
-    #   deploy:
-    #     provider: script
-    #     skip_cleanup: true
-    #     script: npx semantic-release
-    #     on:
-    #       # Branch selection is managed by semantic-release in .releaserc.yml
-    #       all_branches: true
-    #       repo: JuroOravec/semantic-release-changelog-update
+    - stage: release
+      node_js: lts/*
+      script: ':' # noop, skips tests
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: npx semantic-release # runs with release-specific config
+        on:
+          # Branch selection is managed by semantic-release in .releaserc.yml
+          all_branches: true
+          repo: JuroOravec/semantic-release-changelog-update
 
 notifications:
   email:
@@ -63,7 +65,7 @@ notifications:
 env:
   global:
     # GH_TOKEN - semantic-release/github
-    - secure: MWxLj68BGTBqyjLv78iQfmGSbUsvBNYw9EIMx81SQqNHjYvi51awu6tQaY56HxAuAe1dTRzkDVIbi89b3DRkmGB/cFrijEYFdkq86q2/0PyJhY9mEGIxoPPj9tg/x4v2OXf5Xcf5iq7RVKJ2CDrEP8+gj0jj4lCuj7i91kZA/i8juwb3UMVdkIEcTiJ9/bniPxXsxC/EvJmTBPdB+aNNkUFBeoeMCti18lDyR7gy2dAQ45kOaTq2BNG4KECcozpeVuS3BXLNbRNMpvftVBG6q5vG0LkU8DcA2DUtQmqIcWRpIAd+EVLDNhchqZq0+qAZuS/udlmXTcqUALVgRJqvfIZ74ARgqM1dmVfWm0GLWSycWYugQkx2m+s6SEE8BrsmZTelXDrUNl/Gv9pPtl6V5g4aoz62p3RUreOLlvgTq7nwwUAyV5VoWdovcksyotg9sXRy25r5IySgIv2BhgH+lhWbj+cRvOJsvQUaQkV4Jbyf5c01MFnahYRh4nrFeBH9nZFMuSt7LgBJxuEPMJ+HX6csZ0lANiiaZqKLWG/Gu10O75GRWV767ZzGE3B/OvYYvYE543HV78Qa7vkWQGqKo5XeJdmm5n7FfMsphrGBG5Oa9B1zsL+69e9tUxI1Vnd33UX6vXnVwPPd0ynxgsqvu8DDztToUtGitceLeaemkEA=
+    - secure: iWCb6JGYcFBURt0lYnrQzjx9/Us+MnAGlhIxA9Qo16o2CSvt42dalXQvLpHIeGB/IcGFBKUL/nXqUbvWZXUXAXjY51REBl0ztYqi4rw8yrxpKmMBhKlwBWjYCHERdN8CC0EnELakZsDcOmOaC5lx9KkDiKAbtDKigYrdvq6F2ynpdhjxVyeTvCPkZRQVOh39hwEyL1nnlhMg6qIlf8hnGN0RdJ/bcHebeqajTOgw0pv1HfCKxgiB95Bld2ZkvE1+NbfIHg9vSv8yn6O27L2m1FxB+olf+12Otc7BIpqM09ydjmVr5n+Xo6BXiOiWDMSvk5xImcZZbgzOj4EzhTsA9MZ7kmi5ftYKGobJNm+9O7/cVP1S7o0JnB4aEbknuvN+99Cv+ekj80zZw8zSS/TBWGhdQirSMYIoaPuxU5COryD6IKQMYwogXay2SF1NJZPu/yDkanRKcr1wiVwGG2uFxWZMRQWpxkkFznam7RmcWPndFpxXBAC+FMqs4W1cndPeBudf8h9/n64COigfnNbhdCLShQXMFc/l32ZKYN71H6xhiLmcmh98ErFUuo/Dd+0WFT5LHZghXZ1RrrUtwvG/suyiTm40P2mv0DLt2WqhpyOhWif8ij/jjnYXx+a3MZ8deLDvT+1z8/IJPoSQWwogRlNMgto+Go6vXEEi2Vh4i5o=
     # NPM_TOKEN - semantic-release/npm
     - secure: bnc/rVJZwLJ4bvWjvmdkqwjV2nI7sVGM2JVtCwTCscm/VhQcmnCR1mhUo1H7KQdUbH+y2x2frFNFsXkl2354Q+82OoWfLGWUQ8SeLT7yzHAa51M46pVOPibku2/VOdckohnDNpVfMOKdpDHwuMXQSWEJ0f1h6+BHlyn3gPT515rwTe2UHK8U3kAbWHoJXiY8DoRKi80b7DINFLav7n3J7X4LlCYRVg8yDJbUAll+Gb5nHa8qhT4HFxG/rt4wHj5YwYCKWgLD+KzXTjLWBD7fgNO5KcU8El7DjDA9STf6u4A5kJZkY5GdKa2A4xcAYMtyD0AiLFmA9dTOsHXNXt+yF0FvmHljztlFnPuIV41ZRmQaBB5GR9XLyoZcL+JRxH9tuJgEEts1gI7IpL1B5cOCgXaZUBX3pkyjB++VL5sncQhiavQ1QNrvNlVdPloyhCOtWGzHeEJhPjAvtj/hKyiPoAM+GXF3oCcs3GIQ7drKHOAbFH3QqXYfGe1xUoVE/L3Ty8ttyJND1V4rOw+v6KwweYuDdrgJmCqlYkTBs8c5zz1h+iDhjRKR7meeNHtBqVmYnqh2ph5j390/B33/mnlwfb868dvkbklgf6spZrFyvG75XveXETNB5oK2Lx+hCELZauaZiocme373gp7zLocY8sZMjXScel25xLEC97vupvE=
     # GPG signature env vars
@@ -73,6 +75,6 @@ env:
     # GPG_KEY_ID
     - secure: nxemZZ1oy7Dds10bsSdRpE2OAnMLyaWsq3vJHvIahsWDHl79YKWpTiH4OKL1SrljCWbEokBOMBlTzqGGqLS38IC89AS41lLm92IiQn/Aqjbju4rQSwWFw0st/Ol43VqW9X/nB01sdE4LJ2EUw2oW6n1mq1yRghA5KCYMT62Det7TE/eXenb1shW9+VR5mh8q7T1pBTg0QZtcAOUGAma4y6hjKNscSJecEDT9HNBStexk63NdT7YK+/PTkxhgju3orO9e7zMtIz20kPOBcYAzLxmBhmmnslYXkBSlSpwyjdk8ceNky3hsx7K7gg0BY0NggJJgp+zM62r2HDbvYRvXBGbWdI1xfo5uZJ4VcXpctJ+oJYdXuBKCwLducvoJxIHP8GY48RQym5LKkCn1/YMOBVHNjdQkqyQ3jk2tH2OKIkCRqkSfFtznXrruyIHudcbF1Q+y8zLQyGO7TQht/2XFySAW3RWoUJ48t1AsqtufDFmNSIwK4VfWqPc2qKoYFKiD2iaUNFrpe43VG0oOuHKPuPX8IcKu/jw/AC0+zvxsqSPT9XtbndakaDegUnHHzdO6PWcGaa+4eEPDxvqNmtWdFwXo5OVuX1cZp8pUgiHMACT2jYPYrEZoDdoIwFzkNpCTFCaRqyISGODbxboWB2peZ/Z+h72kaOiCe+YRTULg+d4=
     # GIT_EMAIL
-    - secure: G+3omU0hwZU6wAs6GT3eAjZ6SnQ/EAsS2lQq58xCCcAp/K2jjqfovF8EMoVVzd0WBqEboKW4dnwBgJR3jpoFvA4bsTDtAJvXGP7bNrdUuB3bn/17CdbPq3lMvguKrzXRhrIrvfgUqMmhVw02REem5HHkU/aSmW+iquL8Wi4dyR5WlJ12lx0G1GZLMW35h/o3+VKmd0reSV113qQHW1oKnCZN7wDod62OkRiS+1LFp3/D3ZtXVIRYNmXfiAF1vgqj9XebP2s1bR3QTrnb7+SUkAgLMJzCtmdqFzQSmHk36PazltNWdArkvxHSfLA/aFx1xZBgkhrP5/9Ab3gENydmGO4z4bLsqacErAl9f3suRDNIlh3v8uYlyiKw+dGWZ51zWesOmYczZC51pgyud60GmCY7wN80BP6s9PtHEQ7bM7kLNyCrg7UCs/LPe15wt7u4p7C06GQhnrasKwufqI3N2zpHLRzDd5i7SuyTIiVPQ34ONxnadRUICa4OtikxCiINhj9zUfhD23MNLuTQlqf/uCIzBpPi77ucMhVNyYaIGKJTE2sqpUAICvyO2jnLZvKU+2rbKQPBapFqmCwHHfoOzcOxm1bEqgKG7BH/d33YvQ1tcU56AyYCFqsOeufk11pgL9UGcU88LhTzJj1qVTANxjPxD4NN/TO5E4QlIshgV0U=
+    - secure: N0lmXSUac1MOxQZn66v0CrPYthcojClqR/JMw3MlLX6YaA63OXjV5Pkyq1ZIKNQFsFU0d2uJLCmIBnhcNdPWWgNeM6hO2B8PpdARJKeWaXhypTXW7iUqm/Eb6BDQxip83Prp3XSTsyYFUs5iepEiW6/TJFnSxFKw+VWXxFpUtbcDY/diPQ6ZgoJQcbqTWSw79v8wnDEAT9+yLczf8GcLDPNu7GkYlwj88vZfTuOcSkgbl5ayOIhT6kr8W6Y2sRkBdgw9J03KpTf+jpmX4lU9k2pA7r3JJX2e8t0+GNoQGklTYFV6/I6346UVBRjgnLKaIMxwjXDERT3OF+mrfYVKugIxCBue6nPzyPd/qebIp7TtZTLNdmP8NqFj+xtCF5PRs+fmWXHmZwFWd8hnhyjlYQBq2Wj0kDcxL4CDT2n0NyTC0Lc6Pd/d6VoABYq9ZVWKI4SUXbp5QdAsJB08DXBJLI+y3ODeOqZ8rzG0yiQZQEt/SHvFNteuQnque8elt+l97jaGBSpwSE6xeOgU4hP2WGuN/7F8lUYS+IE/+PGBfHs9peRK65w7Q1QQcW5Ut7/3aEjgNYmJO3uv0+M3/VjYd6haX1a8izAkr4l93IZKzcICXLgHdQKx9Kac2JhUzHuJGc722cbdSyyNpzaKOjZZjneuq3GCOOOtg2etI9B6/3Y=
     # GIT_USERNAME
-    - secure: WjsVyRPR6SewkgU0jZjEu4ukTOdYNQsKVKfSM3SkMu4OEHxSRmTxo5k3eLdlLPXc72Kr8TJlCsKy/HOqzpJyv54doiFX6W18dxe4eolu/e//pZtsKtvIwhAIk2Ct9BEZx6OtKKOlyP+ciGXCcgmiMJoRElyHHXu/TLbxl2jT/7r0n36WrHQPRnqksoxUbhNumSgi6jd1FalD1+MTlr/9s+KT+OpRsNRKj8btsc7TgqcqX2JmAqX0qPiZI5ChQqrJd8t7SeC5IUJR5CFz8+4JMFai/+W+P4IfGNLhSCZVtv9Kr+7xdwZlzRqsqoRbQucFXUAKyqrFqOLvRSZlB0i9CoNQ94ap7GARVlLMaSFl/7pcvUcSZbk+hzaXG71jbMseAMxt8PJ9rI7N3Q5P0t4TgXUX8h6lKvm4tbUSDXXx1VU3ySHxegjj+IsQYPMydN/+/Wq8xhVM2hNEmZjUPlUk1uGKUTjJr3O+HVx+BuDIkwWQ2YqWjAlz9AOqmo6Ds/F8CCyj0SmdD/XUWEmaoblDv1r7BeaOchjshsY0awLFsp9Q7+QpROBjwtXYeOo/CAo6AKzXbUEBkMYmngUiLKnzImslvZT9GeCIP362uOw9FvQ0FfSYl1iZkuvn9T1yYLeo3rqJkUq0FvCShH39jZmZVWrIO4nfagaCZXYY9ZPYsuA=
+    - secure: ZXql/CKs7Gv42geAJj1pG/SwfDMIvPvTKSVhdTDu8xA2GCt4I74WPp01bHzYVh6b6NTrGk1T8M1PycOHR/CWGGXX8IisBAtfY+Qn6wH4t3PyrZTRSsRPp56Z2k8N/xm9pWLnpwl+2KA9X13Wj5MwdwixkwlKmR208eIHLl+amC/OkL693W4xkq4MDcTJJlGMXcTwgSnTGbDG4JhIfxQd9I032e3FowpH7IvufEhDQBNNH0ybdHqzTkYWvPwzfe7EWp20dKlnFdIpjBzPCAxglxPSZssw2mRDWu1e0oTxm6aLKwEXOGTrKxwwGqF+ffsvQvRejX24IrOp6V2FV+M2eOf279yHodzTRVn91nOW7jVxdvtejZ1Kin3RnlZLPD4+twTxPxjynjcYuPNDhsTGG5whK+AFT2MPt2PhsTDn5hAW91POTtK0PDSGMEvVjTGFh07dSKsSZ0q7+kS3mmD9N94P3qImvcpcCQf4QGEJOfWXcU995mtdelAv9MXN5hwTYp+ZFoDEgVTXWJBtRbOZ4SZBv4KLyG1xWyBgE1qHkR5/BWvnRyc+keBL0c6o8bAbTtlfp8/76LWO4xHDhxqh/yXHFjtXYBUblU/80a+vXOWtqNImrHBRHeZH2Q6EwppNe0mUmKoh+hrAHC6Ph1wXKPvSX/6SmbLntyMOyp4YcEk=
