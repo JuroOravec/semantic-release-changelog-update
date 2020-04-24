@@ -120,9 +120,9 @@ export default async function verifyConditions(
   const releaseBranchNames = releaseBranches.map((branch) =>
     typeof branch === 'string' ? branch : branch.name,
   );
-  const branchIsValid =
-    baseBranch &&
-    releaseBranchNames.some((name) => minimatch(baseBranch, name));
+  const branchIsValid = releaseBranchNames.some((name) =>
+    minimatch(baseBranch, name),
+  );
 
   if (!branchIsValid) {
     logger.info(

@@ -294,8 +294,11 @@ export const branch = {
 };
 
 export async function currentHead(options = {}, execaOptions?: ExecaOptions) {
-  const branch = currentBranch({ ...options, strict: false }, execaOptions);
-  return branch || lastCommitHash(options, execaOptions);
+  const branch = await currentBranch(
+    { ...options, strict: false },
+    execaOptions,
+  );
+  return branch || (await lastCommitHash(options, execaOptions));
 }
 
 export async function currentBranch<T extends boolean>(
