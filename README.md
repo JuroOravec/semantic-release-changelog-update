@@ -1,6 +1,6 @@
 # semantic-release-changelog-update
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
+[![Latest Version](https://img.shields.io/npm/v/semantic-release-changelog-update/latest.svg)](https://www.npmjs.com/package/semantic-release-changelog-update)
 [![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/JuroOravec/semantic-release-changelog-update/tree/master/docs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://tldrlegal.com/license/mit-license)
 
