@@ -1,9 +1,12 @@
 {
+  "testTimeout": 600000,
+  "runner": "jest-serial-runner",
   "transform": {
     "^.+\\.(t|j)sx?$": "ts-jest"
   },
   "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+  "setupFilesAfterEnv": ["./test/setup/setup-after-env.ts"],
   "coverageDirectory": "./coverage/",
   "collectCoverage": true,
   "testPathIgnorePatterns": [
