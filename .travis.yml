@@ -1,5 +1,5 @@
-sudo: false
-
+os: linux
+dist: xenial
 language: node_js
 node_js:
   - '10'
@@ -51,7 +51,6 @@ jobs:
       script: ':' # noop, skips tests
       deploy:
         provider: script
-        skip_cleanup: true
         script: npx semantic-release # runs with release-specific config
         on:
           # Branch selection is managed by semantic-release in .releaserc.yml
