@@ -8,6 +8,12 @@
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
   "setupFilesAfterEnv": ["./test/setup/setup-after-env.ts"],
   "coverageDirectory": "./coverage/",
+  "coveragePathIgnorePatterns": [
+    "./node_modules/",
+    "./test",
+    "./temp",
+    "./config"
+  ],
   "collectCoverage": true,
   "testPathIgnorePatterns": [
     "<rootDir>/node_modules/",
