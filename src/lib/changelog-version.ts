@@ -1,10 +1,30 @@
 import safeReadFile from './safe-read-file';
 
-export default async function changelogVersion(
-  path: string,
-  pattern: string | RegExp = /^#{1,2}\s*(?:\[)?(.+?)(?:\]|\s+|\()/mu,
-) {
-  const changelog = (await safeReadFile(path)) || '';
+type OptionsWithPath = {
+  path: string;
+  content?: undefined;
+  pattern?: string | RegExp;
+};
+
+type OptionsWithContent = {
+  path?: undefined;
+  content: string;
+  pattern?: string | RegExp;
+};
+
+type ChangelogVersionOptions = OptionsWithContent | OptionsWithPath;
+
+export default async function changelogVersion({
+  path,
+  content,
+  pattern = /^#{1,2}\s*(?:\[)?(.+?)(?:\]|\s+|\()/mu,
+}: ChangelogVersionOptions) {
+  if (path && content) {
+    throw Error('Ambiguous input, both path and content were given.');
+  }
+  const changelog = path
+    ? (await safeReadFile(path)) || ''
+    : (content as string);
 
   const patternRegex =
     typeof pattern === 'string' ? new RegExp(pattern) : pattern;

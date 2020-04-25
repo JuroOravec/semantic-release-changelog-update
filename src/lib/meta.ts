@@ -1,4 +1,5 @@
 import { Branch, Meta } from '../types';
+import debug from './debug';
 
 // Object with default data that should be shared between plugin functions
 export function init<T extends object>(options = {} as T) {
@@ -22,6 +23,7 @@ export function init<T extends object>(options = {} as T) {
 }
 
 export function clean(meta: Meta) {
+  debug('Cleaning meta object');
   Object.keys(meta).forEach((key: string) => {
     delete meta[key as keyof Meta];
   });

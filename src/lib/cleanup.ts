@@ -14,7 +14,7 @@ export default async function cleanup(
   const { dummyBranch, verified } = meta;
 
   if (!verified) {
-    logger.info('Skipping changelog-update cleanup.');
+    logger.info('Skipping changelog update cleanup.');
     return;
   }
 

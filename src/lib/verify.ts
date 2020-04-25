@@ -8,6 +8,7 @@ import semver from 'semver';
 
 import safeReadFile from '../lib/safe-read-file';
 import changelogVersion from '../lib/changelog-version';
+import debug from './debug';
 
 const fsp = fs.promises;
 
@@ -71,19 +72,32 @@ export default async function verifyConditions(
 
   if (prepareChangelog) {
     const initChlogContent = await safeReadFile(chlogPath);
-    const prepareChangelogFn =
-      typeof prepareChangelog === 'string'
-        ? (require('prepareChangelog') as PrepareChangelogFn)
-        : prepareChangelog;
+    let prepareChangelogFn = prepareChangelog as PrepareChangelogFn;
+    if (typeof prepareChangelog === 'string') {
+      debug(`Importing prepare function from ${prepareChangelog}`);
+      prepareChangelogFn = require(prepareChangelog) as PrepareChangelogFn;
+    }
     const chlogContent = await prepareChangelogFn(
       initChlogContent,
       pluginConfig,
       context,
     );
+    debug(`Writing prepared changelog content to ${chlogPath}`);
     await fsp.writeFile(chlogPath, chlogContent, 'utf8');
   }
 
-  let chlogVersion = await changelogVersion(chlogPath, pattern);
+  // If changelog doesn't exist or the file is empty, we will allow to create
+  // it. But if it exists and is non-empty and we cannot find changelog
+  // version, we complain.
+  let chlogVersion: string | null = '0.0.0';
+  if (fs.existsSync(chlogPath)) {
+    debug(`Reading changelog file ${chlogPath}`);
+    const chlogContent = await fsp.readFile(chlogPath, 'utf8');
+    if (chlogContent) {
+      chlogVersion = await changelogVersion({ content: chlogContent, pattern });
+    }
+  }
+
   if (!chlogVersion) {
     throw Error('No changelog version found from ' + chlogPath);
   }
