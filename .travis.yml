@@ -24,8 +24,6 @@ before_install:
   - git config commit.gpgsign true
   # Configure git to use your GPG key
   - git config --global user.signingkey ${GPG_KEY_ID}
-  # Tests fail if not on any branch, so move to master
-  - git checkout master
 install:
   - npm install
 before_script:
@@ -44,7 +42,8 @@ jobs:
     - stage: update CHANGELOG.md
       if: type = pull_request
       node_js: lts/*
-      script: npx semantic-release # runs with PR-specific config
+      script:
+        - npx semantic-release # runs with PR-specific config
 
     - stage: release
       node_js: lts/*
@@ -77,3 +76,7 @@ env:
     - secure: N0lmXSUac1MOxQZn66v0CrPYthcojClqR/JMw3MlLX6YaA63OXjV5Pkyq1ZIKNQFsFU0d2uJLCmIBnhcNdPWWgNeM6hO2B8PpdARJKeWaXhypTXW7iUqm/Eb6BDQxip83Prp3XSTsyYFUs5iepEiW6/TJFnSxFKw+VWXxFpUtbcDY/diPQ6ZgoJQcbqTWSw79v8wnDEAT9+yLczf8GcLDPNu7GkYlwj88vZfTuOcSkgbl5ayOIhT6kr8W6Y2sRkBdgw9J03KpTf+jpmX4lU9k2pA7r3JJX2e8t0+GNoQGklTYFV6/I6346UVBRjgnLKaIMxwjXDERT3OF+mrfYVKugIxCBue6nPzyPd/qebIp7TtZTLNdmP8NqFj+xtCF5PRs+fmWXHmZwFWd8hnhyjlYQBq2Wj0kDcxL4CDT2n0NyTC0Lc6Pd/d6VoABYq9ZVWKI4SUXbp5QdAsJB08DXBJLI+y3ODeOqZ8rzG0yiQZQEt/SHvFNteuQnque8elt+l97jaGBSpwSE6xeOgU4hP2WGuN/7F8lUYS+IE/+PGBfHs9peRK65w7Q1QQcW5Ut7/3aEjgNYmJO3uv0+M3/VjYd6haX1a8izAkr4l93IZKzcICXLgHdQKx9Kac2JhUzHuJGc722cbdSyyNpzaKOjZZjneuq3GCOOOtg2etI9B6/3Y=
     # GIT_USERNAME
     - secure: ZXql/CKs7Gv42geAJj1pG/SwfDMIvPvTKSVhdTDu8xA2GCt4I74WPp01bHzYVh6b6NTrGk1T8M1PycOHR/CWGGXX8IisBAtfY+Qn6wH4t3PyrZTRSsRPp56Z2k8N/xm9pWLnpwl+2KA9X13Wj5MwdwixkwlKmR208eIHLl+amC/OkL693W4xkq4MDcTJJlGMXcTwgSnTGbDG4JhIfxQd9I032e3FowpH7IvufEhDQBNNH0ybdHqzTkYWvPwzfe7EWp20dKlnFdIpjBzPCAxglxPSZssw2mRDWu1e0oTxm6aLKwEXOGTrKxwwGqF+ffsvQvRejX24IrOp6V2FV+M2eOf279yHodzTRVn91nOW7jVxdvtejZ1Kin3RnlZLPD4+twTxPxjynjcYuPNDhsTGG5whK+AFT2MPt2PhsTDn5hAW91POTtK0PDSGMEvVjTGFh07dSKsSZ0q7+kS3mmD9N94P3qImvcpcCQf4QGEJOfWXcU995mtdelAv9MXN5hwTYp+ZFoDEgVTXWJBtRbOZ4SZBv4KLyG1xWyBgE1qHkR5/BWvnRyc+keBL0c6o8bAbTtlfp8/76LWO4xHDhxqh/yXHFjtXYBUblU/80a+vXOWtqNImrHBRHeZH2Q6EwppNe0mUmKoh+hrAHC6Ph1wXKPvSX/6SmbLntyMOyp4YcEk=
+    # GIT_COMMITTER_NAME (to have signed commits from semantic-release)
+    - secure: pg4aaNjh3HwX7gC8i1xbrbjDHMbTlN6aj+lYvyNZAMU5RSdBMW0/nEYFvKbzvZsx1eZwIGH+4zq00ZdutXca7tM+wOfFcSZTU4uMolKX1JA6eIbcVa7D8xoQCfhQq5VkAq+Db7BYNrptCQVS8/GXwtRvypUmFpl428vaR1WGHsPUOfzY1YBjFjDfIpYGQRi2Ae1qOT6yKZa/lRbLwVn6AIYRZbTyahiREldMFnxlynnZUObwqAL0sjH/7L3ciJFAYy18V8iiywQOVl7wy7TGw3HcaJqHeDMyDn6l0VjLD6RNkH06JTMaqhTzv2frCPNNhod4Cp4BSIE9aGQ7FO5Yp7LySruwmAKWt3qdYRTFamXJ2HqrBiq+WHCnElj8Mw2XHhDQza4OcRUShA3WtIVzsqVUtmWs7M7/896ULHLQU78My8U8Mx/rldF3W70mHYHMe/ML+5CVh937T3AxwR9DDPQx7mAe5MDr2SUigVdebf1zYZaQkUxBo+ruUQi0sQTUYdf6fFQUXIvn8GCOSi75nGkUNIAHq+2I8sJHi9UQsyjiEALAAeBcj77whfmR/fCj04HHuXIJDxYfDkqxPU4PSajHLqynEskBIWkLRpCmrMTVFoO23rVw6Y1uKKhDo7EdltAPj/lHC1A9axoyfk/YK2D02NcR8bVBzFqUi/vvpdA=
+    # GIT_COMMITTER_EMAIL (to have signed commits from semantic-release)
+    - secure: DYOLlQPBVQoxQORSB6AMeyqPz8zgrRPkxOIsdZz0dNTwl1wuwGZeuyKLCeFFQ9wgOS31AzFk8iJFca0F1tXXcDqChqzPaoAMvgUllCWrewhL7wkLSpNb0rMexJEd1uxY372CC2iqO1UVLd8rF6s8MHlzgfIyRT8CuSfvFW368nsDQFviI5mT7yW95MUehLItz97rTFaoA/qfdlduTSclh1DDZbHhKhL4rmCdHZAk+GfQBYTyV6eIel+qjnpMMZ3CdmWhdEWsqy2F+q3M5/ve13EhGCHlmDy2ZvVzvKLr4nUdAnYZnwXXFg3p89ILcwQRxFALUsgu1UkR9u0kmiMkCXjuEegNEqJIMm0Wl6cB0jbUg9pzDpD+yJEF5IKzxHKUjXMCfrzQzM0Y2A7r+jfku1IvEkEWU5T6h2lqk7fwmUK5tGA5UwqnSmlvQ5ANTSHxgYEZykLLRIi/1uiQSYj9DycGRI+P0cxY7WGRMLBErXM5D0+BCV1VFkrNJJx31W+fWD+uzfYZ6jeDMiUlqJxiX9Geoo5WltxgkZKJ4mrE85Y36h8W9WX6r4Zqu1ARM1mFMGLj0OWibwfkLYxCerV+NLQyZVwpoWphpprJ46opcXORC0dsNUn3LyP9CfxtylHNEqql1e//nw/vRV7V8vOUHJYNR5wX/bCTZ64QoRL4H+4=

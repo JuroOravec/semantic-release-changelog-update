@@ -28,26 +28,3 @@ export function changelogUpdate({
 
   return sr(srOptions, environment);
 }
-
-// ```
-
-// EITHER DO
-
-// import {plugin} from 'srcu'
-
-// plugins: [
-//   [plugin, {...yourOptions}],
-//   ...
-// ]
-
-// plugins: []
-//   plugin,
-//   ...
-// ]
-
-// OR VIA JS
-
-// import { changelogUpdate } from 'srcu'
-
-// await changelogUpdate(srConfig, srEnv, cuPluginOptions);
-// ```;

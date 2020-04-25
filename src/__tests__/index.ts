@@ -2,7 +2,14 @@ import { randomBytes } from 'crypto';
 import envCi from 'env-ci';
 
 import { changelogUpdate } from '../';
-import { checkout, currentBranch, stash, status, Commit } from '../lib/git';
+import {
+  checkout,
+  currentBranch,
+  stash,
+  status,
+  Commit,
+  lastCommitHash,
+} from '../lib/git';
 
 import {
   recordEnvironment,
@@ -35,11 +42,13 @@ describe('changelogUpdate', () => {
   /**
    * Constants
    */
+  const { isCi, branch: ciBranch } = envCi();
   const runId = randomBytes(8).toString('hex');
-  const remote = envCi().isCi ? getRemoteUrl() : 'origin';
+  const remote = isCi ? getRemoteUrl() : 'origin';
   const headBranch = `temp/test/${runId}/headbranch`;
   const baseBranch = `temp/test/${runId}/basebranch`;
   const otherBranch = `temp/test/${runId}/other`;
+  const srBranches = isCi ? [ciBranch] : [otherBranch, headBranch, baseBranch];
 
   /**
    * Parameters
@@ -117,8 +126,11 @@ describe('changelogUpdate', () => {
     // Disable Husky hooks
     initialHuskyHooks = process.env.HUSKY_SKIP_HOOKS;
     process.env.HUSKY_SKIP_HOOKS = '1';
-    // Remember the branch we were on when we started the tests
-    initialBranch = await currentBranch({ strict: true });
+    // Remember the branch or commit we were on when we started the tests
+    const currBranch = await currentBranch({ strict: false });
+    if (!currBranch) {
+      initialBranch = await lastCommitHash();
+    }
     // Stash changes made to avoid losing them
     if (await status()) {
       stashed = true;
@@ -128,7 +140,7 @@ describe('changelogUpdate', () => {
     // Create test branches with test commits
     // The "other" branch is our default branch, the branch we resolve to
     // when we don't want to be on either head nor base branch.
-    const headCommits = await branch.create([
+    const lastCommits = await branch.create([
       {
         name: 'otherBranch',
         branch: otherBranch,
@@ -151,9 +163,9 @@ describe('changelogUpdate', () => {
         remote,
       },
     ]);
-    headLastCommit = headCommits.headBranch;
-    baseLastCommit = headCommits.baseBranch;
-    otherLastCommit = headCommits.otherBranch;
+    headLastCommit = lastCommits.headBranch;
+    baseLastCommit = lastCommits.baseBranch;
+    otherLastCommit = lastCommits.otherBranch;
   });
 
   test('[meta] branch setup works', () => expect(true).toBe(true));
@@ -220,7 +232,7 @@ describe('changelogUpdate', () => {
             () =>
               changelogUpdate({
                 options: {
-                  branches: [otherBranch, headBranch, baseBranch],
+                  branches: srBranches,
                 },
                 pluginOptions: {
                   headBranch,
@@ -239,9 +251,9 @@ describe('changelogUpdate', () => {
           chlogEnv = {} as chlog.Env;
           // Return branches to starting state
           await branch.reset([
-            { branch: otherBranch, commit: otherLastCommit.hash },
-            { branch: headBranch, commit: headLastCommit.hash },
-            { branch: baseBranch, commit: baseLastCommit.hash },
+            { branch: otherBranch, commit: otherLastCommit.hash, remote },
+            { branch: headBranch, commit: headLastCommit.hash, remote },
+            { branch: baseBranch, commit: baseLastCommit.hash, remote },
           ]);
         });
 
@@ -390,6 +402,11 @@ function runTests({
     test.todo(
       `[${branchType}][${chlogType}] test 'prepareChangelog' plugin ` +
         `option works as intended`,
+    );
+
+    test.todo(
+      `[${branchType}][${chlogType}] changelog is generated if the file is ` +
+        `empty or there's no changelog file yet`,
     );
   });
 }

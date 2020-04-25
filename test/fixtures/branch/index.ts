@@ -9,14 +9,18 @@ import {
 } from '../../../src/lib/git';
 import { Commit } from '../../../src/lib/git';
 
-type ResetBranchesOptions = { branch: string; commit: string }[];
+type ResetBranchesOptions = {
+  remote: string;
+  branch: string;
+  commit: string;
+}[];
 
 export async function reset(branches: ResetBranchesOptions) {
   const initHead = await currentHead();
-  for (const { branch, commit } of branches) {
+  for (const { remote, branch, commit } of branches) {
     await checkout({ to: branch });
     await gitReset({ to: commit, hard: true });
-    await push({ force: true });
+    await push({ force: true, remote });
   }
   await checkout({ to: initHead as string });
 }
