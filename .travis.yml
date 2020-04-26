@@ -1,5 +1,12 @@
 os: linux
 dist: xenial
+
+branches:
+  only:
+    - master
+  except:
+    - /temp\/.*/
+
 language: node_js
 node_js:
   - '10'
@@ -30,7 +37,7 @@ before_script:
   - npm run setup
 script:
   - commitlint-travis
-  - npm run test:jest
+  - npm run validate
 
 jobs:
   include:
@@ -49,10 +56,11 @@ jobs:
       node_js: lts/*
       script: ':' # noop, skips tests
       deploy:
+        edge: true
         provider: script
         script: npx semantic-release # runs with release-specific config
         on:
-          # Branch selection is managed by semantic-release in .releaserc.yml
+          # Branch selection is managed by semantic-release
           all_branches: true
           repo: JuroOravec/semantic-release-changelog-update
 
