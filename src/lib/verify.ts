@@ -131,8 +131,8 @@ export default async function verifyConditions(
 
   // Check if the branch we want to use as a base is a release branch in
   // release environment.
-  const releaseBranchNames = releaseBranches.map((branch) =>
-    typeof branch === 'string' ? branch : branch.name,
+  const releaseBranchNames = releaseBranches.map((releaseBranch) =>
+    typeof releaseBranch === 'string' ? releaseBranch : releaseBranch.name,
   );
   const branchIsValid = releaseBranchNames.some((name) =>
     minimatch(baseBranch, name),
