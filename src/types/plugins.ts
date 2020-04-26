@@ -119,3 +119,50 @@ export type GenerateReleaseNotesConfig = {
    */
   presetConfig: any;
 };
+
+/**
+ * Options passed to `@semantic-release/commit-analyzer`
+ *
+ * See `@semantic-release/commit-analyzer`
+ *
+ * Generated from v8.0.1
+ */
+export type CommitAnalyzerConfig = {
+  /**
+   * conventional-changelog preset.
+   *
+   * See `@semantic-release/commit-analyzer` option `preset`
+   */
+  preset: string;
+  /**
+   * NPM package name of a custom conventional-changelog preset.
+   *
+   * See `@semantic-release/commit-analyzer` option `config`
+   */
+  config: string;
+  /**
+   * Additional conventional-commits-parser options that will extends the ones
+   * loaded by preset or config. This is convenient to use a
+   * conventional-changelog preset with some customizations without having to
+   * create a new module.
+   *
+   * See `@semantic-release/commit-analyzer` option `parserOpts`
+   */
+  parserOpts: any;
+  /**
+   * Additional conventional-commits-writer options that will extends the ones
+   * loaded by preset or config. This is convenient to use a
+   * conventional-changelog preset with some customizations without having to
+   * create a new module.
+   *
+   * See `@semantic-release/commit-analyzer` option `writerOpts`
+   */
+  writerOpts: any;
+  /**
+   * Additional configuration passed to the conventional-changelog preset. Used
+   * for example with conventional-changelog-conventionalcommits.
+   *
+   * See `@semantic-release/commit-analyzer` option `presetConfig`
+   */
+  presetConfig: any;
+};

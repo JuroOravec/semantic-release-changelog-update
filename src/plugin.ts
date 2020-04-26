@@ -1,4 +1,5 @@
 import getVerifyConditions from './steps/verify-conditions';
+import getAnalyzeCommits from './steps/analyze-commits';
 import getGenerateNotes from './steps/generate-notes';
 
 // Data shared between functions with default props
@@ -9,5 +10,6 @@ const meta = {};
 
 module.exports = {
   verifyConditions: getVerifyConditions(meta),
+  analyzeCommits: getAnalyzeCommits(meta),
   generateNotes: getGenerateNotes(meta),
 };

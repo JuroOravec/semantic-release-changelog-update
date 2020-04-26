@@ -82,7 +82,6 @@ To use outside CI environment, specify both `headBranch` and `baseBranch` option
 ### Requirements
 
 - `git` cli with the permission to push and commit to remote
-- `@semantic-release/commit-analyzer` if used as a plugin.
 
 ### Installation
 
@@ -144,16 +143,13 @@ The function accepts an object with 3 properties:
 Add the plugin to
 [semantic-release config](https://github.com/semantic-release/semantic-release/blob/431d571a7b7284b2029a55da68a44c65d7c16451/docs/usage/configuration.md#plugins).
 
-The plugin must go _before_ `@semantic-release/commit-analyzer` to work properly.
-
 ```json
 {
   "dryRun": true,
   "ci": false,
   ...
   "plugins": [
-    "semantic-release-changelog-update/plugin",
-    "@semantic-release/commit-analyzer"
+    "semantic-release-changelog-update/plugin"
   ]
 }
 ```
@@ -168,7 +164,6 @@ module.exports = {
   ....
   plugins: [
     changelogUpdate.plugin,
-    "@semantic-release/commit-analyzer"
   ]
 }
 ```
@@ -185,8 +180,7 @@ You can pass [options](#options) like this:
         "message": "custom commit message",
         "prepareChangelog": "./path/to/func"
       }
-    ],
-    "@semantic-release/commit-analyzer"
+    ]
   ]
 }
 ```
@@ -218,9 +212,10 @@ The plugin additionally accepts options that are passed to other plugin it uses:
 
 | Plugin                                                                                                                                                               | Notes                                                            |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [@semantic-release/commit-analyzer](https://github.com/semantic-release/commit-analyzer/tree/2b9c73e1b4d63221980da18fd3d1f2817aaee1b8#configuration)                 | All options are passed forward.                                  |
+| [@semantic-release/release-notes-generator](https://github.com/semantic-release/release-notes-generator/tree/a0f6c8941c38ed884546b03f51a71a3f6fc1c665#configuration) | All options are passed forward.                                  |
 | [@semantic-release/git](https://github.com/semantic-release/git/tree/905f113a577c55cd9bb0a37ea3504d9e8ee2dfa2#options)                                               | The `assets` option is ignored and overriden by `changelogFile`. |
 | [@semantic-release/changelog](https://github.com/semantic-release/changelog/tree/bede4d04b0a9ec13a5661bf0424465176486f3fd#options)                                   | All options are passed forward.                                  |
-| [@semantic-release/release-notes-generator](https://github.com/semantic-release/release-notes-generator/tree/a0f6c8941c38ed884546b03f51a71a3f6fc1c665#configuration) | All options are passed forward.                                  |
 
 ## 🔮 Details
 
@@ -238,12 +233,20 @@ The plugin additionally accepts options that are passed to other plugin it uses:
 
 In the background, this plugin does the following:
 
-- Creates a temporary branch named `temp/semantic-release/<branch-name>`. This branch is based on `baseBranch` with commits rebased from
+- Creates a temporary branch named `temp/semantic-release/<branch-name>`. This
+  branch is based on `baseBranch` with commits rebased from
   `headBranch` on top of it, so we have a branch that contains all
   (current + new) commits without polluting any working branches.
-- The temporary branch is pushed to remote so `commit-analyzer` can find it and extract commits.
-- After `commit-analyzer`, the plugin calls `release-notes-generator`, `changelog` and `git` passing the temporary branch as the branch these plugins should work against. This updates the changelog and pushes it to the temporary branch.
-- Lastly, the commit containing the changelog update is pushed to the `headBranch` and the temporary branch is removed.
+- The temporary branch is pushed to remote so `commit-analyzer` can find it
+  and extract commits.
+- If `commit-analyzer` found no release-worthy commits, the temporary branch
+  is removed and the `semantic-release` end the pipeline.
+- After `commit-analyzer`, the plugin calls `release-notes-generator`,
+  `changelog` and `git` passing the temporary branch as the branch these
+  plugins should work against. This updates the changelog and pushes it to
+  the temporary branch.
+- Lastly, the commit containing the changelog update is pushed to the
+  `headBranch` and the temporary branch is removed.
 
 ## ⏳ Changelog
 
