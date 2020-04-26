@@ -1,7 +1,7 @@
-import { Context as SRConfig, GlobalConfig } from 'semantic-release';
-import { TravisEnv } from 'env-ci';
+import type { Context as SRConfig, GlobalConfig } from 'semantic-release';
+import type { TravisEnv } from 'env-ci';
 
-import {
+import type {
   ChangelogConfig,
   GenerateReleaseNotesConfig,
   GitConfig,

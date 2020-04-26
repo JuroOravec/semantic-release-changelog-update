@@ -1,6 +1,6 @@
 import sr, { Options, Config as SRConfig } from 'semantic-release';
 
-import { Config as PluginConfig } from './types';
+import type { Config as PluginConfig } from './types';
 
 export const plugin = require.resolve('./plugin');
 

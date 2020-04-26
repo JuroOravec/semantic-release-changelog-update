@@ -1,10 +1,10 @@
-import { Meta, Context, Config, PrepareChangelogFn } from '../types';
-
 import fs from 'fs';
 import path from 'path';
 import minimatch from 'minimatch';
 import readPkgUp from 'read-pkg-up';
 import semver from 'semver';
+
+import type { Meta, Context, Config, PrepareChangelogFn } from '../types';
 
 import safeReadFile from '../lib/safe-read-file';
 import changelogVersion from '../lib/changelog-version';

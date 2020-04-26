@@ -1,4 +1,4 @@
-import { Context, Meta, Config } from '../types';
+import type { Context, Meta, Config } from '../types';
 import { currentHead, checkout, push, pull, rebase, branchExists } from './git';
 
 /**

@@ -1,4 +1,4 @@
-import { Meta, Context, Config } from '../types';
+import type { Meta, Context, Config } from '../types';
 
 import prepareBranch from '../lib/prepare-branch';
 import verify from '../lib/verify';
