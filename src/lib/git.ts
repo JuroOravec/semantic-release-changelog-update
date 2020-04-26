@@ -62,9 +62,9 @@ export async function checkout(
 ) {
   const cmdArgs = ['checkout'];
   // Whether the args imply the user expects us to create the branch
-  let shouldCreate = create || from;
+  const shouldCreate = create || from;
   // Whether we should first try to checkout to branch without creating it
-  let tryNoCreate = existOk || !shouldCreate;
+  const tryNoCreate = existOk || !shouldCreate;
 
   if (create || from) {
     cmdArgs.push('-b');
@@ -94,14 +94,14 @@ export async function checkout(
 }
 
 export async function cherryPick(
-  { commit, allowEmpty = false }: CherryPickOptions,
+  { commit: commitObj, allowEmpty = false }: CherryPickOptions,
   execaOptions?: ExecaOptions,
 ) {
   const cmdArgs = ['cherry-pick'];
   if (allowEmpty) {
     cmdArgs.push('--allow-empty');
   }
-  cmdArgs.push(commit);
+  cmdArgs.push(commitObj);
   return gitCommand(cmdArgs, execaOptions);
 }
 
@@ -118,7 +118,7 @@ export async function commit(
 }
 
 export async function log(
-  { oneline = false, format, count, branch }: LogOptions,
+  { oneline = false, format, count, branch: branchName }: LogOptions,
   execaOptions?: ExecaOptions,
 ) {
   const cmdArgs = ['log'];
@@ -131,8 +131,8 @@ export async function log(
   if (count !== undefined) {
     cmdArgs.push('-n', count.toString());
   }
-  if (branch) {
-    cmdArgs.push(branch);
+  if (branchName) {
+    cmdArgs.push(branchName);
   }
   const { stdout } = await gitCommand(cmdArgs, execaOptions);
   return stdout;
@@ -234,12 +234,12 @@ export const stash = {
 };
 
 export async function branchExists(
-  { branch, remote }: BranchExistsOptions,
+  { branch: branchName, remote }: BranchExistsOptions,
   execaOptions?: ExecaOptions,
 ) {
   try {
     await gitCommand(
-      ['ls-remote', '--heads', '--exit-code', remote, branch],
+      ['ls-remote', '--heads', '--exit-code', remote, branchName],
       execaOptions,
     );
     return true;
@@ -250,7 +250,7 @@ export async function branchExists(
 
 export async function removeBranch(
   {
-    branch,
+    branch: branchName,
     remote = 'origin',
     fromLocal = true,
     fromRemote = false,
@@ -260,14 +260,14 @@ export async function removeBranch(
 ) {
   if (fromLocal) {
     try {
-      await gitCommand(['branch', '-D', branch], execaOptions);
+      await gitCommand(['branch', '-D', branchName], execaOptions);
     } catch (err) {
       if (strict) throw err;
     }
   }
   if (fromRemote) {
     try {
-      await push({ delete: branch, remote }, execaOptions);
+      await push({ delete: branchName, remote }, execaOptions);
     } catch (err) {
       if (strict) throw err;
     }
@@ -296,11 +296,11 @@ export const branch = {
 };
 
 export async function currentHead(options = {}, execaOptions?: ExecaOptions) {
-  const branch = await currentBranch(
+  const currBranch = await currentBranch(
     { ...options, strict: false },
     execaOptions,
   );
-  return branch || (await lastCommitHash(options, execaOptions));
+  return currBranch || (await lastCommitHash(options, execaOptions));
 }
 
 export async function currentBranch<T extends boolean>(
@@ -325,10 +325,10 @@ export async function currentBranch<T extends boolean>(
 }
 
 export async function lastCommitHash(
-  { branch = 'HEAD' }: LastCommitHashOptions = {},
+  { branch: branchName = 'HEAD' }: LastCommitHashOptions = {},
   execaOptions?: ExecaOptions,
 ) {
-  const { stdout } = await gitCommand(['rev-parse', '--short', branch], {
+  const { stdout } = await gitCommand(['rev-parse', '--short', branchName], {
     ...execaOptions,
     stdout: undefined, // we want to extract stdout, so don't redirect it
   });
@@ -336,20 +336,23 @@ export async function lastCommitHash(
 }
 
 export async function lastCommitMessage(
-  { branch }: LastCommitMsgOptions = {},
+  { branch: branchName }: LastCommitMsgOptions = {},
   execaOptions?: ExecaOptions,
 ) {
-  return log({ oneline: true, format: '%s', count: 1, branch }, execaOptions);
+  return log(
+    { oneline: true, format: '%s', count: 1, branch: branchName },
+    execaOptions,
+  );
 }
 
 export async function lastCommit(
   options: LastCommitMsgOptions & LastCommitHashOptions = {},
 ) {
-  const commit: Commit = {
+  const commitObj: Commit = {
     hash: await lastCommitHash(options),
     message: await lastCommitMessage(options),
   };
-  return commit;
+  return commitObj;
 }
 
 export async function isOnBranchHead(
@@ -370,8 +373,8 @@ export async function cherrypickLastCommit(
   if (to) await checkout({ to }, execaOptions);
 
   // Copy the id of last commit from the 'from' branch.
-  const commit = await lastCommitHash({ branch: from }, execaOptions);
-  await cherryPick({ commit }, execaOptions);
+  const commitHash = await lastCommitHash({ branch: from }, execaOptions);
+  await cherryPick({ commit: commitHash }, execaOptions);
 
   // Return to initial commit
   if (to) await checkout({ to: initHead! }, execaOptions);
