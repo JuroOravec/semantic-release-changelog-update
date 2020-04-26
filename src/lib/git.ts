@@ -1,5 +1,7 @@
 import execa, { Options as ExecaOptions } from 'execa';
 
+import debug from './debug';
+
 export type Commit = {
   hash: string;
   message: string;
@@ -49,6 +51,11 @@ type StashPushOptions = Partial<ArgMsg> & {
   includeUntracked?: boolean;
 };
 
+async function gitCommand(commandArgs: string[], execaOptions?: ExecaOptions) {
+  debug(`Trying git command "${['git', ...commandArgs].join(' ')}"`);
+  return execa('git', commandArgs, execaOptions);
+}
+
 export async function checkout(
   { create = false, to, from, strict = true, existOk = false }: CheckoutOptions,
   execaOptions?: ExecaOptions,
@@ -69,7 +76,7 @@ export async function checkout(
 
   if (tryNoCreate) {
     try {
-      await execa('git', ['checkout', to], execaOptions);
+      await gitCommand(['checkout', to], execaOptions);
       return;
     } catch (err) {
       /** noop */
@@ -78,10 +85,10 @@ export async function checkout(
   if (shouldCreate) {
     // Create the branch
     try {
-      await execa('git', cmdArgs, execaOptions);
+      await gitCommand(cmdArgs, execaOptions);
     } catch (err) {
       if (strict) throw err;
-      console.warn(err);
+      debug(err);
     }
   }
 }
@@ -95,7 +102,7 @@ export async function cherryPick(
     cmdArgs.push('--allow-empty');
   }
   cmdArgs.push(commit);
-  return execa('git', cmdArgs, execaOptions);
+  return gitCommand(cmdArgs, execaOptions);
 }
 
 export async function commit(
@@ -107,7 +114,7 @@ export async function commit(
     cmdArgs.push('--allow-empty');
   }
   cmdArgs.push('-m', `"${message}"`);
-  return execa('git', cmdArgs, execaOptions);
+  return gitCommand(cmdArgs, execaOptions);
 }
 
 export async function log(
@@ -127,7 +134,7 @@ export async function log(
   if (branch) {
     cmdArgs.push(branch);
   }
-  const { stdout } = await execa('git', cmdArgs, execaOptions);
+  const { stdout } = await gitCommand(cmdArgs, execaOptions);
   return stdout;
 }
 
@@ -159,7 +166,7 @@ export async function push(
   if (deleteCmd) {
     cmdArgs.push('--delete', deleteCmd);
   }
-  return execa('git', cmdArgs, execaOptions);
+  return gitCommand(cmdArgs, execaOptions);
 }
 
 export async function pull(
@@ -167,14 +174,14 @@ export async function pull(
   execaOptions?: ExecaOptions,
 ) {
   const mappedBranch = from ? `${from}:${to}` : to;
-  return execa('git', ['pull', remote, mappedBranch], execaOptions);
+  return gitCommand(['pull', remote, mappedBranch], execaOptions);
 }
 
 export async function rebase(
   { onto }: RebaseOptions,
   execaOptions?: ExecaOptions,
 ) {
-  return execa('git', ['rebase', onto], execaOptions);
+  return gitCommand(['rebase', onto], execaOptions);
 }
 
 export async function reset(
@@ -186,7 +193,7 @@ export async function reset(
     cmdArgs.push('--hard');
   }
   cmdArgs.push(to);
-  return execa('git', cmdArgs, execaOptions);
+  return gitCommand(cmdArgs, execaOptions);
 }
 
 export async function status<T extends boolean>(
@@ -194,11 +201,7 @@ export async function status<T extends boolean>(
   execaOptions?: ExecaOptions,
 ) {
   type ReturnVal = T extends true ? string[] : string;
-  const { stdout } = await execa(
-    'git',
-    ['status', '--porcelain'],
-    execaOptions,
-  );
+  const { stdout } = await gitCommand(['status', '--porcelain'], execaOptions);
   if (parse) {
     if (!stdout) return [];
     return stdout.split('\n').map((change) => change.trim()) as ReturnVal;
@@ -217,12 +220,12 @@ export async function stashPush(
   if (message) {
     cmdArgs.push('-m', message);
   }
-  return execa('git', cmdArgs, execaOptions);
+  return gitCommand(cmdArgs, execaOptions);
 }
 
 export async function stashPop(options = {}, execaOptions?: ExecaOptions) {
   const cmdArgs = ['stash', 'pop'];
-  return execa('git', cmdArgs, execaOptions);
+  return gitCommand(cmdArgs, execaOptions);
 }
 
 export const stash = {
@@ -235,8 +238,7 @@ export async function branchExists(
   execaOptions?: ExecaOptions,
 ) {
   try {
-    await execa(
-      'git',
+    await gitCommand(
       ['ls-remote', '--heads', '--exit-code', remote, branch],
       execaOptions,
     );
@@ -258,7 +260,7 @@ export async function removeBranch(
 ) {
   if (fromLocal) {
     try {
-      await execa('git', ['branch', '-D', branch], execaOptions);
+      await gitCommand(['branch', '-D', branch], execaOptions);
     } catch (err) {
       if (strict) throw err;
     }
@@ -276,7 +278,7 @@ export async function listBranches(
   { parse = false }: ListBranchOptions = {},
   execaOptions?: ExecaOptions,
 ) {
-  const { stdout } = await execa('git', ['branch'], execaOptions);
+  const { stdout } = await gitCommand(['branch'], execaOptions);
   const output = parse
     ? stdout
         .split('\n')
@@ -294,8 +296,11 @@ export const branch = {
 };
 
 export async function currentHead(options = {}, execaOptions?: ExecaOptions) {
-  const branch = currentBranch({ ...options, strict: false }, execaOptions);
-  return branch || lastCommitHash(options, execaOptions);
+  const branch = await currentBranch(
+    { ...options, strict: false },
+    execaOptions,
+  );
+  return branch || (await lastCommitHash(options, execaOptions));
 }
 
 export async function currentBranch<T extends boolean>(
@@ -304,7 +309,7 @@ export async function currentBranch<T extends boolean>(
 ) {
   type ReturnVal = T extends true ? string : string | undefined;
   try {
-    const { stderr, stdout } = await execa('git', [
+    const { stderr, stdout } = await gitCommand([
       'symbolic-ref',
       '--short',
       'HEAD',
@@ -323,7 +328,7 @@ export async function lastCommitHash(
   { branch = 'HEAD' }: LastCommitHashOptions = {},
   execaOptions?: ExecaOptions,
 ) {
-  const { stdout } = await execa('git', ['rev-parse', '--short', branch], {
+  const { stdout } = await gitCommand(['rev-parse', '--short', branch], {
     ...execaOptions,
     stdout: undefined, // we want to extract stdout, so don't redirect it
   });

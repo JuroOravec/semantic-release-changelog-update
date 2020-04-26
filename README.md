@@ -1,15 +1,20 @@
 # semantic-release-changelog-update
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
-[![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](https://github.com/JuroOravec/semantic-release-changelog-update/tree/master/docs)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://tldrlegal.com/license/mit-license)
+[![Latest Version](https://img.shields.io/npm/v/semantic-release-changelog-update/latest.svg)](https://www.npmjs.com/package/semantic-release-changelog-update)
+[![Documentation](https://img.shields.io/badge/docs-yes-brightgreen.svg)](https://github.com/JuroOravec/semantic-release-changelog-update/tree/master/docs)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](#-contributing)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://tldrlegal.com/license/mit-license)
+[![Package Size](https://img.shields.io/bundlephobia/min/instance-manager)](https://bundlephobia.com/result?p=instance-manager)
 
 [![Build Status](https://travis-ci.org/JuroOravec/semantic-release-changelog-update.svg?branch=master)](https://travis-ci.org/JuroOravec/semantic-release-changelog-update)
-[![codecov](https://codecov.io/gh/JuroOravec/semantic-release-changelog-update/branch/master/graph/badge.svg)](https://codecov.io/gh/JuroOravec/semantic-release-changelog-update)
+![Dependencies](https://david-dm.org/JuroOravec/semantic-release-changelog-update.svg)
 [![Known Vulnerabilities](https://snyk.io/test/github/JuroOravec/semantic-release-changelog-update/badge.svg)](https://snyk.io/test/github/JuroOravec/semantic-release-changelog-update)
+[![codecov](https://codecov.io/gh/JuroOravec/semantic-release-changelog-update/branch/master/graph/badge.svg)](https://codecov.io/gh/JuroOravec/semantic-release-changelog-update)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/JuroOravec/semantic-release-changelog-update.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/JuroOravec/semantic-release-changelog-update/alerts/)
 [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/JuroOravec/semantic-release-changelog-update.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/JuroOravec/semantic-release-changelog-update/context:javascript)
 [![Maintainability](https://api.codeclimate.com/v1/badges/88afcf890743f774a97d/maintainability)](https://codeclimate.com/github/JuroOravec/semantic-release-changelog-update/maintainability)
+
+---
 
 <!--
 One-liner explaining the purpose of the module
@@ -322,6 +327,7 @@ This project is a plugin for [semantic-release](https://github.com/semantic-rele
 - Twitter: [@JuroOravec](https://twitter.com/JuroOravec)
 - GitHub: [@JuroOravec](https://github.com/JuroOravec)
 - LinkedIn: [@jurooravec](https://linkedin.com/in/jurooravec)
+- Sourcerer: [@JuroOravec](https://sourcerer.io/jurooravec)
 
 ## 📝 License
 

@@ -3,6 +3,7 @@ const envCi = require('env-ci');
 
 const defaultConfig = require('./config');
 const { branches } = require('./merge.config');
+const { plugin } = require(process.cwd());
 
 const { prBranch, branch } = envCi();
 
@@ -24,10 +25,8 @@ config.plugins = [
   // Plugin calls release-notes-generator, changelog and git plugins itself,
   // so we don't have to include them here. But the plugin must be BEFORE
   // the commit-analyzer plugin.
-  [process.cwd(), pluginOptions],
+  [plugin, pluginOptions],
   '@semantic-release/commit-analyzer',
 ];
-
-console.log(config);
 
 module.exports = config;

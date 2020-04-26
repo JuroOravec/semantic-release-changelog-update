@@ -19,7 +19,7 @@ describe('changelogVersion', () => {
   `;
 
   test('returns null if no changelog found', async () => {
-    const version = await changelogVersion(path);
+    const version = await changelogVersion({ path });
     expect(version).toBeNull();
   });
 
@@ -27,7 +27,7 @@ describe('changelogVersion', () => {
     const fileReaderSpy = jest.spyOn(safeReadFileModule, 'default');
     fileReaderSpy.mockReturnValue(Promise.resolve(changelogData));
 
-    const version = await changelogVersion(path);
+    const version = await changelogVersion({ path });
 
     expect(version).toBeTruthy();
     expect(version).toBe('1.2.3');
@@ -42,7 +42,7 @@ describe('changelogVersion', () => {
       Promise.resolve(changelogData.replace(/#/gu, '±')),
     );
 
-    const version = await changelogVersion(path, pattern);
+    const version = await changelogVersion({ path, pattern });
 
     expect(version).toBeTruthy();
     expect(version).toBe('1.2.3');
@@ -54,7 +54,7 @@ describe('changelogVersion', () => {
     const fileReaderSpy = jest.spyOn(safeReadFileModule, 'default');
     fileReaderSpy.mockReturnValue(Promise.resolve(null));
 
-    const version = await changelogVersion(path);
+    const version = await changelogVersion({ path });
 
     expect(version).toBeNull();
 
