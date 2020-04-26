@@ -1,14 +1,15 @@
 import { randomBytes } from 'crypto';
+import path from 'path';
 import envCi from 'env-ci';
 
-import { changelogUpdate } from '../';
+import { changelogUpdate } from '../index';
 import {
   checkout,
   currentBranch,
   stash,
   status,
   Commit,
-  lastCommitHash,
+  currentHead,
 } from '../lib/git';
 
 import {
@@ -49,6 +50,11 @@ describe('changelogUpdate', () => {
   const baseBranch = `temp/test/${runId}/basebranch`;
   const otherBranch = `temp/test/${runId}/other`;
   const srBranches = isCi ? [ciBranch] : [otherBranch, headBranch, baseBranch];
+
+  /**
+   * Mocks
+   */
+  jest.mock(path.resolve(process.cwd(), 'release.config.js'), () => ({}));
 
   /**
    * Parameters
@@ -127,10 +133,7 @@ describe('changelogUpdate', () => {
     initialHuskyHooks = process.env.HUSKY_SKIP_HOOKS;
     process.env.HUSKY_SKIP_HOOKS = '1';
     // Remember the branch or commit we were on when we started the tests
-    const currBranch = await currentBranch({ strict: false });
-    if (!currBranch) {
-      initialBranch = await lastCommitHash();
-    }
+    initialBranch = await currentHead();
     // Stash changes made to avoid losing them
     if (await status()) {
       stashed = true;

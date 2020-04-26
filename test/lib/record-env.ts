@@ -53,7 +53,7 @@ export interface RequiredEnvDefaults extends Env {
 }
 
 export async function recordEnvironment(
-  fn: () => {},
+  fn: () => any,
   envDefaults: RequiredEnvDefaults & Env,
 ) {
   const env: Env & RequiredEnvDefaults = {
