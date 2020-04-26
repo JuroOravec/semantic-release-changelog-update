@@ -23,7 +23,7 @@ export function changelogUpdate({
     ci: false,
     branches: ['**/*'],
     ...options,
-    plugins: [[plugin, plgnOptions], '@semantic-release/commit-analyzer'],
+    plugins: [[plugin, plgnOptions]],
   };
 
   return sr(srOptions, environment);

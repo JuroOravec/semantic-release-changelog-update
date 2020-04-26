@@ -5,6 +5,7 @@ import type {
   ChangelogConfig,
   GenerateReleaseNotesConfig,
   GitConfig,
+  CommitAnalyzerConfig,
 } from './plugins';
 
 type BranchArg = string | Branch;
@@ -30,6 +31,7 @@ export type Config = Partial<GlobalConfig> &
   Partial<ChangelogConfig> &
   Partial<GenerateReleaseNotesConfig> &
   Partial<GitConfig> &
+  Partial<CommitAnalyzerConfig> &
   Partial<{
     pattern: string | RegExp;
     baseBranch: string;
