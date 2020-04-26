@@ -37,6 +37,7 @@ Update changelog using [semantic-release](https://github.com/semantic-release/se
 - [🤝 Contributing](#-contributing)
 - [🧙 Contributors](#-contributors)
 - [⭐ Show your support](#-show-your-support)
+- [🐙 Community](#-community)
 - [🔗 Related Projects](#-related-projects)
 - [👨‍🔧 Maintainers](#-maintainers)
 - [📝 License](#-license)
@@ -318,6 +319,12 @@ _No additional contributors. Be the first one!_
 ## ⭐ Show your support
 
 Give a ⭐️if this project helped you!
+
+## 🐙 Community
+
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/semantic-release-changelog-update)
+- [Quora](https://www.quora.com/search?q=%22semantic-release-changelog-update%22)
+- [Spectrum community](https://spectrum.chat/semantic-release-changelog-update)
 
 ## 🔗 Related Projects
 
