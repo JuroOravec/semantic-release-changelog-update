@@ -1,5 +1,6 @@
+import type { Context, Meta, Config } from '../types';
+
 import { removeBranch } from './git';
-import { Context, Meta, Config } from '../types';
 import { clean } from './meta';
 
 export default async function cleanup(

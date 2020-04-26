@@ -1,4 +1,4 @@
-import { Branch, Meta } from '../types';
+import type { Branch, Meta } from '../types';
 import debug from './debug';
 
 // Object with default data that should be shared between plugin functions

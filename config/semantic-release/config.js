@@ -17,7 +17,7 @@ const config = {
         regExps: [
           // Error on pre-release deps (e.g. beta, alpha, etc)
           // Matches ending without a digit
-          '\\d$',
+          '\\D$',
           // Error on relative deps (e.g. ./ or ../)
           // Matches start with a dot
           '^\\.',

@@ -6,10 +6,9 @@ import changelogPlugin from '@semantic-release/changelog';
 // @ts-ignore
 import gitPlugin from '@semantic-release/git';
 
-import { Context, Config } from '../types';
+import type { Context, Config, Meta } from '../types';
 import cleanup from '../lib/cleanup';
 import { checkout, cherrypickLastCommit, push, removeBranch } from '../lib/git';
-import { Meta } from '../types';
 
 async function generateNotes(
   pluginConfig: Config,
