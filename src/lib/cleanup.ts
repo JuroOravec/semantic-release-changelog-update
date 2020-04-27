@@ -1,6 +1,6 @@
 import type { Context, Meta, Config } from '../types';
 
-import { removeBranch } from './git';
+import { removeBranch, checkout, currentHead } from './git';
 import { clean } from './meta';
 
 export default async function cleanup(
@@ -21,6 +21,10 @@ export default async function cleanup(
 
   // Remove the temporary branch
   if (dummyBranch) {
+    const currHead = await currentHead({}, context);
+    if (currHead === dummyBranch) {
+      await checkout({ to: meta.initHead! }, context);
+    }
     await removeBranch(
       { branch: dummyBranch, remote: repositoryUrl, fromRemote: true },
       context,
