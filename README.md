@@ -94,6 +94,8 @@ npm install semantic-release-changelog-update
 
 <!-- Clear, _runnable_ example of usage -->
 
+See how the plugin is used [within this project.](https://github.com/JuroOravec/semantic-release-changelog-update/blob/694e5d354c4b1871bab0b45c1137b776ada9f87d/config/semantic-release/pr.config.js)
+
 > Note: This plugin works with `git` cli and temporarily creates a branch on remote named `temp/semantic-release/<branch-name>`.
 >
 > The plugin changes the branch that semantic-release is working with. Therefore it is not recommended to use it with other plugins that might depend on commits, or that intend to release something, as these would be working with the temporary branch.
