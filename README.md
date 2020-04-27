@@ -37,6 +37,7 @@ Update changelog using [semantic-release](https://github.com/semantic-release/se
 - [🤝 Contributing](#-contributing)
 - [🧙 Contributors](#-contributors)
 - [⭐ Show your support](#-show-your-support)
+- [🐙 Community](#-community)
 - [🔗 Related Projects](#-related-projects)
 - [👨‍🔧 Maintainers](#-maintainers)
 - [📝 License](#-license)
@@ -92,6 +93,8 @@ npm install semantic-release-changelog-update
 ## 🚀 Usage
 
 <!-- Clear, _runnable_ example of usage -->
+
+See how the plugin is used [within this project.](https://github.com/JuroOravec/semantic-release-changelog-update/blob/694e5d354c4b1871bab0b45c1137b776ada9f87d/config/semantic-release/pr.config.js)
 
 > Note: This plugin works with `git` cli and temporarily creates a branch on remote named `temp/semantic-release/<branch-name>`.
 >
@@ -318,6 +321,12 @@ _No additional contributors. Be the first one!_
 ## ⭐ Show your support
 
 Give a ⭐️if this project helped you!
+
+## 🐙 Community
+
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/semantic-release-changelog-update)
+- [Quora](https://www.quora.com/search?q=%22semantic-release-changelog-update%22)
+- [Spectrum community](https://spectrum.chat/semantic-release-changelog-update)
 
 ## 🔗 Related Projects
 

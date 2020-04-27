@@ -22,9 +22,11 @@
 * [BranchExistsOptions](README.md#branchexistsoptions)
 * [ChangelogConfig](README.md#changelogconfig)
 * [ChangelogUpdateOptions](README.md#changelogupdateoptions)
+* [ChangelogVersionOptions](README.md#changelogversionoptions)
 * [CheckoutOptions](README.md#checkoutoptions)
 * [CherryPickOptions](README.md#cherrypickoptions)
 * [Commit](README.md#commit)
+* [CommitAnalyzerConfig](README.md#commitanalyzerconfig)
 * [CommitOptions](README.md#commitoptions)
 * [Config](README.md#config)
 * [Context](README.md#context)
@@ -36,6 +38,8 @@
 * [ListBranchOptions](README.md#listbranchoptions)
 * [LogOptions](README.md#logoptions)
 * [Meta](README.md#meta)
+* [OptionsWithContent](README.md#optionswithcontent)
+* [OptionsWithPath](README.md#optionswithpath)
 * [PrepareChangelogFn](README.md#preparechangelogfn)
 * [PullOptions](README.md#pulloptions)
 * [PushOptions](README.md#pushoptions)
@@ -47,11 +51,13 @@
 ### Variables
 
 * [fsp](README.md#const-fsp)
+* [mainDebug](README.md#const-maindebug)
 * [meta](README.md#const-meta)
 * [plugin](README.md#const-plugin)
 
 ### Functions
 
+* [analyzeCommits](README.md#analyzecommits)
 * [branchExists](README.md#branchexists)
 * [changelogUpdate](README.md#changelogupdate)
 * [changelogVersion](README.md#changelogversion)
@@ -64,8 +70,11 @@
 * [currentBranch](README.md#currentbranch)
 * [currentHead](README.md#currenthead)
 * [generateNotes](README.md#generatenotes)
+* [getAnalyzeCommits](README.md#getanalyzecommits)
+* [getDebugLogger](README.md#getdebuglogger)
 * [getGenerateNotes](README.md#getgeneratenotes)
 * [getVerifyConditions](README.md#getverifyconditions)
+* [gitCommand](README.md#gitcommand)
 * [init](README.md#init)
 * [isOnBranchHead](README.md#isonbranchhead)
 * [lastCommit](README.md#lastcommit)
@@ -97,7 +106,7 @@
 
 Ƭ **ArgAllowEmpty**: *object*
 
-*Defined in [src/lib/git.ts:17](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L17)*
+*Defined in [src/lib/git.ts:19](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L19)*
 
 #### Type declaration:
 
@@ -109,7 +118,7 @@ ___
 
 Ƭ **ArgBranch**: *object*
 
-*Defined in [src/lib/git.ts:10](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L10)*
+*Defined in [src/lib/git.ts:12](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L12)*
 
 #### Type declaration:
 
@@ -121,7 +130,7 @@ ___
 
 Ƭ **ArgCommit**: *object*
 
-*Defined in [src/lib/git.ts:13](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L13)*
+*Defined in [src/lib/git.ts:15](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L15)*
 
 #### Type declaration:
 
@@ -133,7 +142,7 @@ ___
 
 Ƭ **ArgForce**: *object*
 
-*Defined in [src/lib/git.ts:15](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L15)*
+*Defined in [src/lib/git.ts:17](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L17)*
 
 #### Type declaration:
 
@@ -145,7 +154,7 @@ ___
 
 Ƭ **ArgFrom**: *object*
 
-*Defined in [src/lib/git.ts:9](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L9)*
+*Defined in [src/lib/git.ts:11](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L11)*
 
 #### Type declaration:
 
@@ -157,7 +166,7 @@ ___
 
 Ƭ **ArgMsg**: *object*
 
-*Defined in [src/lib/git.ts:16](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L16)*
+*Defined in [src/lib/git.ts:18](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L18)*
 
 #### Type declaration:
 
@@ -169,7 +178,7 @@ ___
 
 Ƭ **ArgOnto**: *object*
 
-*Defined in [src/lib/git.ts:12](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L12)*
+*Defined in [src/lib/git.ts:14](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L14)*
 
 #### Type declaration:
 
@@ -181,7 +190,7 @@ ___
 
 Ƭ **ArgParse**: *object*
 
-*Defined in [src/lib/git.ts:18](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L18)*
+*Defined in [src/lib/git.ts:20](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L20)*
 
 #### Type declaration:
 
@@ -193,7 +202,7 @@ ___
 
 Ƭ **ArgRemote**: *object*
 
-*Defined in [src/lib/git.ts:11](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L11)*
+*Defined in [src/lib/git.ts:13](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L13)*
 
 #### Type declaration:
 
@@ -205,7 +214,7 @@ ___
 
 Ƭ **ArgStrict**: *object*
 
-*Defined in [src/lib/git.ts:14](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L14)*
+*Defined in [src/lib/git.ts:16](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L16)*
 
 #### Type declaration:
 
@@ -217,7 +226,7 @@ ___
 
 Ƭ **ArgTo**: *object*
 
-*Defined in [src/lib/git.ts:8](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L8)*
+*Defined in [src/lib/git.ts:10](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L10)*
 
 #### Type declaration:
 
@@ -229,7 +238,7 @@ ___
 
 Ƭ **Branch**: *object*
 
-*Defined in [src/types/index.ts:12](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/index.ts#L12)*
+*Defined in [src/types/index.ts:13](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/index.ts#L13)*
 
 #### Type declaration:
 
@@ -245,7 +254,7 @@ ___
 
 Ƭ **BranchArg**: *string | [Branch](README.md#branch)*
 
-*Defined in [src/types/index.ts:10](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/index.ts#L10)*
+*Defined in [src/types/index.ts:11](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/index.ts#L11)*
 
 ___
 
@@ -253,7 +262,7 @@ ___
 
 Ƭ **BranchExistsOptions**: *[ArgBranch](README.md#argbranch) & [ArgRemote](README.md#argremote)*
 
-*Defined in [src/lib/git.ts:37](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L37)*
+*Defined in [src/lib/git.ts:39](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L39)*
 
 ___
 
@@ -261,7 +270,7 @@ ___
 
 Ƭ **ChangelogConfig**: *object*
 
-*Defined in [src/types/plugins.ts:24](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/plugins.ts#L24)*
+*Defined in [src/types/plugins.ts:24](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/plugins.ts#L24)*
 
 Options passed to `@semantic-release/git`
 
@@ -281,7 +290,7 @@ ___
 
 Ƭ **ChangelogUpdateOptions**: *object*
 
-*Defined in [src/index.ts:7](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/index.ts#L7)*
+*Defined in [src/index.ts:7](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/index.ts#L7)*
 
 #### Type declaration:
 
@@ -293,11 +302,19 @@ ___
 
 ___
 
+###  ChangelogVersionOptions
+
+Ƭ **ChangelogVersionOptions**: *[OptionsWithContent](README.md#optionswithcontent) | [OptionsWithPath](README.md#optionswithpath)*
+
+*Defined in [src/lib/changelog-version.ts:15](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/changelog-version.ts#L15)*
+
+___
+
 ###  CheckoutOptions
 
 Ƭ **CheckoutOptions**: *[ArgTo](README.md#argto) & Partial‹[ArgFrom](README.md#argfrom)› & Partial‹[ArgStrict](README.md#argstrict)› & object*
 
-*Defined in [src/lib/git.ts:20](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L20)*
+*Defined in [src/lib/git.ts:22](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L22)*
 
 ___
 
@@ -305,7 +322,7 @@ ___
 
 Ƭ **CherryPickOptions**: *[ArgCommit](README.md#argcommit) & Partial‹[ArgAllowEmpty](README.md#argallowempty)›*
 
-*Defined in [src/lib/git.ts:23](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L23)*
+*Defined in [src/lib/git.ts:25](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L25)*
 
 ___
 
@@ -313,7 +330,7 @@ ___
 
 Ƭ **Commit**: *object*
 
-*Defined in [src/lib/git.ts:3](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L3)*
+*Defined in [src/lib/git.ts:5](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L5)*
 
 #### Type declaration:
 
@@ -323,19 +340,45 @@ ___
 
 ___
 
+###  CommitAnalyzerConfig
+
+Ƭ **CommitAnalyzerConfig**: *object*
+
+*Defined in [src/types/plugins.ts:130](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/plugins.ts#L130)*
+
+Options passed to `@semantic-release/commit-analyzer`
+
+See `@semantic-release/commit-analyzer`
+
+Generated from v8.0.1
+
+#### Type declaration:
+
+* **config**: *string*
+
+* **parserOpts**: *any*
+
+* **preset**: *string*
+
+* **presetConfig**: *any*
+
+* **writerOpts**: *any*
+
+___
+
 ###  CommitOptions
 
 Ƭ **CommitOptions**: *[ArgMsg](README.md#argmsg) & Partial‹[ArgAllowEmpty](README.md#argallowempty)›*
 
-*Defined in [src/lib/git.ts:24](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L24)*
+*Defined in [src/lib/git.ts:26](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L26)*
 
 ___
 
 ###  Config
 
-Ƭ **Config**: *Partial‹GlobalConfig› & Partial‹[ChangelogConfig](README.md#changelogconfig)› & Partial‹[GenerateReleaseNotesConfig](README.md#generatereleasenotesconfig)› & Partial‹[GitConfig](README.md#gitconfig)› & Partial‹object›*
+Ƭ **Config**: *Partial‹GlobalConfig› & Partial‹[ChangelogConfig](README.md#changelogconfig)› & Partial‹[GenerateReleaseNotesConfig](README.md#generatereleasenotesconfig)› & Partial‹[GitConfig](README.md#gitconfig)› & Partial‹[CommitAnalyzerConfig](README.md#commitanalyzerconfig)› & Partial‹object›*
 
-*Defined in [src/types/index.ts:29](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/index.ts#L29)*
+*Defined in [src/types/index.ts:30](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/index.ts#L30)*
 
 ___
 
@@ -343,7 +386,7 @@ ___
 
 Ƭ **Context**: *SRConfig & object*
 
-*Defined in [src/types/index.ts:14](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/index.ts#L14)*
+*Defined in [src/types/index.ts:15](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/index.ts#L15)*
 
 ___
 
@@ -351,7 +394,7 @@ ___
 
 Ƭ **CopyLastCommitOptions**: *Partial‹[ArgTo](README.md#argto)› & [ArgFrom](README.md#argfrom)*
 
-*Defined in [src/lib/git.ts:40](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L40)*
+*Defined in [src/lib/git.ts:42](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L42)*
 
 ___
 
@@ -359,7 +402,7 @@ ___
 
 Ƭ **GenerateReleaseNotesConfig**: *object*
 
-*Defined in [src/types/plugins.ts:46](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/plugins.ts#L46)*
+*Defined in [src/types/plugins.ts:46](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/plugins.ts#L46)*
 
 Options passed to `@semantic-release/generate-release-notes`
 
@@ -395,7 +438,7 @@ ___
 
 Ƭ **GitConfig**: *object*
 
-*Defined in [src/types/plugins.ts:8](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/plugins.ts#L8)*
+*Defined in [src/types/plugins.ts:8](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/plugins.ts#L8)*
 
 Options passed to `@semantic-release/git`
 
@@ -413,7 +456,7 @@ ___
 
 Ƭ **LastCommitHashOptions**: *Partial‹[ArgBranch](README.md#argbranch)›*
 
-*Defined in [src/lib/git.ts:38](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L38)*
+*Defined in [src/lib/git.ts:40](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L40)*
 
 ___
 
@@ -421,7 +464,7 @@ ___
 
 Ƭ **LastCommitMsgOptions**: *Partial‹[ArgBranch](README.md#argbranch)›*
 
-*Defined in [src/lib/git.ts:39](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L39)*
+*Defined in [src/lib/git.ts:41](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L41)*
 
 ___
 
@@ -429,7 +472,7 @@ ___
 
 Ƭ **ListBranchOptions**: *Partial‹[ArgParse](README.md#argparse)›*
 
-*Defined in [src/lib/git.ts:47](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L47)*
+*Defined in [src/lib/git.ts:49](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L49)*
 
 ___
 
@@ -437,7 +480,7 @@ ___
 
 Ƭ **LogOptions**: *Partial‹[ArgBranch](README.md#argbranch)› & object*
 
-*Defined in [src/lib/git.ts:25](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L25)*
+*Defined in [src/lib/git.ts:27](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L27)*
 
 ___
 
@@ -445,7 +488,7 @@ ___
 
 Ƭ **Meta**: *object*
 
-*Defined in [src/types/index.ts:42](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/index.ts#L42)*
+*Defined in [src/types/index.ts:44](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/index.ts#L44)*
 
 #### Type declaration:
 
@@ -469,11 +512,43 @@ ___
 
 ___
 
+###  OptionsWithContent
+
+Ƭ **OptionsWithContent**: *object*
+
+*Defined in [src/lib/changelog-version.ts:9](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/changelog-version.ts#L9)*
+
+#### Type declaration:
+
+* **content**: *string*
+
+* **path**? : *undefined*
+
+* **pattern**? : *string | RegExp*
+
+___
+
+###  OptionsWithPath
+
+Ƭ **OptionsWithPath**: *object*
+
+*Defined in [src/lib/changelog-version.ts:3](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/changelog-version.ts#L3)*
+
+#### Type declaration:
+
+* **content**? : *undefined*
+
+* **path**: *string*
+
+* **pattern**? : *string | RegExp*
+
+___
+
 ###  PrepareChangelogFn
 
 Ƭ **PrepareChangelogFn**: *function*
 
-*Defined in [src/types/index.ts:23](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/types/index.ts#L23)*
+*Defined in [src/types/index.ts:24](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/types/index.ts#L24)*
 
 #### Type declaration:
 
@@ -493,7 +568,7 @@ ___
 
 Ƭ **PullOptions**: *[ArgTo](README.md#argto) & Partial‹[ArgFrom](README.md#argfrom)› & Partial‹[ArgRemote](README.md#argremote)›*
 
-*Defined in [src/lib/git.ts:34](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L34)*
+*Defined in [src/lib/git.ts:36](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L36)*
 
 ___
 
@@ -501,7 +576,7 @@ ___
 
 Ƭ **PushOptions**: *Partial‹[ArgTo](README.md#argto)› & Partial‹[ArgFrom](README.md#argfrom)› & Partial‹[ArgRemote](README.md#argremote)› & Partial‹[ArgForce](README.md#argforce)› & object*
 
-*Defined in [src/lib/git.ts:30](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L30)*
+*Defined in [src/lib/git.ts:32](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L32)*
 
 ___
 
@@ -509,7 +584,7 @@ ___
 
 Ƭ **RebaseOptions**: *[ArgOnto](README.md#argonto)*
 
-*Defined in [src/lib/git.ts:35](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L35)*
+*Defined in [src/lib/git.ts:37](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L37)*
 
 ___
 
@@ -517,7 +592,7 @@ ___
 
 Ƭ **RemoveBranchOptions**: *[ArgBranch](README.md#argbranch) & Partial‹[ArgRemote](README.md#argremote)› & Partial‹[ArgStrict](README.md#argstrict)› & object*
 
-*Defined in [src/lib/git.ts:41](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L41)*
+*Defined in [src/lib/git.ts:43](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L43)*
 
 ___
 
@@ -525,7 +600,7 @@ ___
 
 Ƭ **ResetOptions**: *[ArgTo](README.md#argto) & object*
 
-*Defined in [src/lib/git.ts:36](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L36)*
+*Defined in [src/lib/git.ts:38](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L38)*
 
 ___
 
@@ -533,7 +608,7 @@ ___
 
 Ƭ **StashPushOptions**: *Partial‹[ArgMsg](README.md#argmsg)› & object*
 
-*Defined in [src/lib/git.ts:48](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L48)*
+*Defined in [src/lib/git.ts:50](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L50)*
 
 ## Variables
 
@@ -541,9 +616,17 @@ ___
 
 • **fsp**: *promises* = fs.promises
 
-*Defined in [src/lib/safe-read-file.ts:3](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/safe-read-file.ts#L3)*
+*Defined in [src/lib/safe-read-file.ts:5](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/safe-read-file.ts#L5)*
 
-*Defined in [src/lib/verify.ts:12](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/verify.ts#L12)*
+*Defined in [src/lib/verify.ts:13](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/verify.ts#L13)*
+
+___
+
+### `Const` mainDebug
+
+• **mainDebug**: *log* = getDebugLogger()
+
+*Defined in [src/lib/debug.ts:15](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/debug.ts#L15)*
 
 ___
 
@@ -551,7 +634,7 @@ ___
 
 • **meta**: *object*
 
-*Defined in [src/plugin.ts:8](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/plugin.ts#L8)*
+*Defined in [src/plugin.ts:9](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/plugin.ts#L9)*
 
 #### Type declaration:
 
@@ -561,15 +644,37 @@ ___
 
 • **plugin**: *string* = require.resolve('./plugin')
 
-*Defined in [src/index.ts:5](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/index.ts#L5)*
+*Defined in [src/index.ts:5](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/index.ts#L5)*
 
 ## Functions
+
+###  analyzeCommits
+
+▸ **analyzeCommits**(`pluginConfig`: [Config](README.md#config), `context`: [Context](README.md#context), `meta`: [Meta](README.md#meta)): *Promise‹null | string›*
+
+*Defined in [src/steps/analyze-commits.ts:13](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/steps/analyze-commits.ts#L13)*
+
+Wrapper around @semantic-release/commit-analyzer so we can remove the
+temporary branches if no releaseType is determined (because then the
+pipeline ends with the analyze commits step)
+
+**Parameters:**
+
+Name | Type | Default |
+------ | ------ | ------ |
+`pluginConfig` | [Config](README.md#config) | - |
+`context` | [Context](README.md#context) | - |
+`meta` | [Meta](README.md#meta) | {} |
+
+**Returns:** *Promise‹null | string›*
+
+___
 
 ###  branchExists
 
 ▸ **branchExists**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹boolean›*
 
-*Defined in [src/lib/git.ts:233](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L233)*
+*Defined in [src/lib/git.ts:236](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L236)*
 
 **Parameters:**
 
@@ -577,7 +682,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`branch` | string |
+`branchName` | string |
 `remote` | string |
 
 ▪`Optional`  **execaOptions**: *ExecaOptions*
@@ -590,7 +695,7 @@ ___
 
 ▸ **changelogUpdate**(`__namedParameters`: object): *Promise‹false | object›*
 
-*Defined in [src/index.ts:13](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/index.ts#L13)*
+*Defined in [src/index.ts:13](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/index.ts#L13)*
 
 **Parameters:**
 
@@ -600,7 +705,7 @@ Name | Type |
 ------ | ------ |
 `environment` | Config |
 `options` | Options |
-`pluginOptions` | object & object & object & object & object |
+`pluginOptions` | object & object & object & object & object & object |
 
 **Returns:** *Promise‹false | object›*
 
@@ -608,16 +713,19 @@ ___
 
 ###  changelogVersion
 
-▸ **changelogVersion**(`path`: string, `pattern`: string | RegExp): *Promise‹null | string›*
+▸ **changelogVersion**(`__namedParameters`: object): *Promise‹null | string›*
 
-*Defined in [src/lib/changelog-version.ts:3](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/changelog-version.ts#L3)*
+*Defined in [src/lib/changelog-version.ts:17](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/changelog-version.ts#L17)*
 
 **Parameters:**
 
+▪ **__namedParameters**: *object*
+
 Name | Type | Default |
 ------ | ------ | ------ |
-`path` | string | - |
-`pattern` | string &#124; RegExp | /^#{1,2}\s*(?:\[)?(.+?)(?:\]|\s+|\()/mu |
+`content` | undefined &#124; string | - |
+`path` | undefined &#124; string | - |
+`pattern` | string &#124; RegExp‹› | /^#{1,2}\s*(?:\[)?(.+?)(?:\]|\s+|\()/mu |
 
 **Returns:** *Promise‹null | string›*
 
@@ -627,7 +735,7 @@ ___
 
 ▸ **checkout**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹void›*
 
-*Defined in [src/lib/git.ts:52](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L52)*
+*Defined in [src/lib/git.ts:59](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L59)*
 
 **Parameters:**
 
@@ -651,7 +759,7 @@ ___
 
 ▸ **cherryPick**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
 
-*Defined in [src/lib/git.ts:89](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L89)*
+*Defined in [src/lib/git.ts:96](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L96)*
 
 **Parameters:**
 
@@ -660,7 +768,7 @@ ___
 Name | Type | Default |
 ------ | ------ | ------ |
 `allowEmpty` | boolean | false |
-`commit` | string | - |
+`commitObj` | string | - |
 
 ▪`Optional`  **execaOptions**: *ExecaOptions*
 
@@ -672,7 +780,7 @@ ___
 
 ▸ **cherrypickLastCommit**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹void›*
 
-*Defined in [src/lib/git.ts:357](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L357)*
+*Defined in [src/lib/git.ts:365](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L365)*
 
 **Parameters:**
 
@@ -693,7 +801,7 @@ ___
 
 ▸ **clean**(`meta`: [Meta](README.md#meta)): *object*
 
-*Defined in [src/lib/meta.ts:24](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/meta.ts#L24)*
+*Defined in [src/lib/meta.ts:25](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/meta.ts#L25)*
 
 **Parameters:**
 
@@ -727,7 +835,7 @@ ___
 
 ▸ **cleanup**(`pluginConfig`: [Config](README.md#config), `context`: [Context](README.md#context), `meta`: [Meta](README.md#meta)): *Promise‹void›*
 
-*Defined in [src/lib/cleanup.ts:5](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/cleanup.ts#L5)*
+*Defined in [src/lib/cleanup.ts:6](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/cleanup.ts#L6)*
 
 **Parameters:**
 
@@ -745,7 +853,7 @@ ___
 
 ▸ **commit**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
 
-*Defined in [src/lib/git.ts:101](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L101)*
+*Defined in [src/lib/git.ts:108](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L108)*
 
 **Parameters:**
 
@@ -766,7 +874,7 @@ ___
 
 ▸ **currentBranch**<**T**>(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹T extends true ? string : undefined | string›*
 
-*Defined in [src/lib/git.ts:301](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L301)*
+*Defined in [src/lib/git.ts:306](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L306)*
 
 **Type parameters:**
 
@@ -788,9 +896,9 @@ ___
 
 ###  currentHead
 
-▸ **currentHead**(`options`: object, `execaOptions?`: ExecaOptions): *Promise‹undefined | string›*
+▸ **currentHead**(`options`: object, `execaOptions?`: ExecaOptions): *Promise‹string›*
 
-*Defined in [src/lib/git.ts:296](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L296)*
+*Defined in [src/lib/git.ts:298](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L298)*
 
 **Parameters:**
 
@@ -799,7 +907,7 @@ Name | Type | Default |
 `options` | object | {} |
 `execaOptions?` | ExecaOptions | - |
 
-**Returns:** *Promise‹undefined | string›*
+**Returns:** *Promise‹string›*
 
 ___
 
@@ -807,7 +915,7 @@ ___
 
 ▸ **generateNotes**(`pluginConfig`: [Config](README.md#config), `context`: [Context](README.md#context), `meta`: [Meta](README.md#meta)): *Promise‹undefined | string›*
 
-*Defined in [src/steps/generate-notes.ts:14](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/steps/generate-notes.ts#L14)*
+*Defined in [src/steps/generate-notes.ts:13](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/steps/generate-notes.ts#L13)*
 
 **Parameters:**
 
@@ -821,11 +929,37 @@ Name | Type |
 
 ___
 
+###  getAnalyzeCommits
+
+▸ **getAnalyzeCommits**(`meta`: [Meta](README.md#meta)): *analyzeCommitsWrapper*
+
+*Defined in [src/steps/analyze-commits.ts:28](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/steps/analyze-commits.ts#L28)*
+
+**Parameters:**
+
+Name | Type | Default |
+------ | ------ | ------ |
+`meta` | [Meta](README.md#meta) | {} |
+
+**Returns:** *analyzeCommitsWrapper*
+
+___
+
+###  getDebugLogger
+
+▸ **getDebugLogger**(): *log*
+
+*Defined in [src/lib/debug.ts:4](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/debug.ts#L4)*
+
+**Returns:** *log*
+
+___
+
 ###  getGenerateNotes
 
 ▸ **getGenerateNotes**(`meta`: [Meta](README.md#meta)): *generateNotesWrapper*
 
-*Defined in [src/steps/generate-notes.ts:99](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/steps/generate-notes.ts#L99)*
+*Defined in [src/steps/generate-notes.ts:98](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/steps/generate-notes.ts#L98)*
 
 **Parameters:**
 
@@ -841,7 +975,7 @@ ___
 
 ▸ **getVerifyConditions**(`meta`: [Meta](README.md#meta)): *verifyWrapper*
 
-*Defined in [src/steps/verify-conditions.ts:17](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/steps/verify-conditions.ts#L17)*
+*Defined in [src/steps/verify-conditions.ts:17](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/steps/verify-conditions.ts#L17)*
 
 **Parameters:**
 
@@ -853,11 +987,28 @@ Name | Type | Default |
 
 ___
 
+###  gitCommand
+
+▸ **gitCommand**(`commandArgs`: string[], `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
+
+*Defined in [src/lib/git.ts:54](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L54)*
+
+**Parameters:**
+
+Name | Type |
+------ | ------ |
+`commandArgs` | string[] |
+`execaOptions?` | ExecaOptions |
+
+**Returns:** *Promise‹ExecaReturnValue‹string››*
+
+___
+
 ###  init
 
 ▸ **init**<**T**>(`options`: T): *object & T*
 
-*Defined in [src/lib/meta.ts:4](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/meta.ts#L4)*
+*Defined in [src/lib/meta.ts:5](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/meta.ts#L5)*
 
 **Type parameters:**
 
@@ -877,7 +1028,7 @@ ___
 
 ▸ **isOnBranchHead**(`options`: object, `execaOptions?`: ExecaOptions): *Promise‹boolean›*
 
-*Defined in [src/lib/git.ts:350](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L350)*
+*Defined in [src/lib/git.ts:358](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L358)*
 
 **Parameters:**
 
@@ -894,7 +1045,7 @@ ___
 
 ▸ **lastCommit**(`options`: [LastCommitMsgOptions](README.md#lastcommitmsgoptions) & [LastCommitHashOptions](README.md#lastcommithashoptions)): *Promise‹object›*
 
-*Defined in [src/lib/git.ts:340](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L340)*
+*Defined in [src/lib/git.ts:348](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L348)*
 
 **Parameters:**
 
@@ -910,7 +1061,7 @@ ___
 
 ▸ **lastCommitHash**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹string›*
 
-*Defined in [src/lib/git.ts:322](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L322)*
+*Defined in [src/lib/git.ts:327](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L327)*
 
 **Parameters:**
 
@@ -918,7 +1069,7 @@ ___
 
 Name | Type | Default |
 ------ | ------ | ------ |
-`branch` | string | "HEAD" |
+`branchName` | string | "HEAD" |
 
 ▪`Optional`  **execaOptions**: *ExecaOptions*
 
@@ -930,7 +1081,7 @@ ___
 
 ▸ **lastCommitMessage**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹string›*
 
-*Defined in [src/lib/git.ts:333](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L333)*
+*Defined in [src/lib/git.ts:338](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L338)*
 
 **Parameters:**
 
@@ -938,7 +1089,7 @@ ___
 
 Name | Type |
 ------ | ------ |
-`branch` | undefined &#124; string |
+`branchName` | undefined &#124; string |
 
 ▪`Optional`  **execaOptions**: *ExecaOptions*
 
@@ -950,7 +1101,7 @@ ___
 
 ▸ **listBranches**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹string | string[]›*
 
-*Defined in [src/lib/git.ts:275](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L275)*
+*Defined in [src/lib/git.ts:277](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L277)*
 
 **Parameters:**
 
@@ -970,7 +1121,7 @@ ___
 
 ▸ **log**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹string›*
 
-*Defined in [src/lib/git.ts:113](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L113)*
+*Defined in [src/lib/git.ts:120](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L120)*
 
 **Parameters:**
 
@@ -978,7 +1129,7 @@ ___
 
 Name | Type | Default |
 ------ | ------ | ------ |
-`branch` | undefined &#124; string | - |
+`branchName` | undefined &#124; string | - |
 `count` | undefined &#124; number | - |
 `format` | undefined &#124; string | - |
 `oneline` | boolean | false |
@@ -993,7 +1144,7 @@ ___
 
 ▸ **prepare**<**T**>(`meta`: [Meta](README.md#meta), `options?`: T): *object*
 
-*Defined in [src/lib/meta.ts:31](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/meta.ts#L31)*
+*Defined in [src/lib/meta.ts:33](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/meta.ts#L33)*
 
 **Type parameters:**
 
@@ -1032,7 +1183,7 @@ ___
 
 ▸ **prepareBranch**(`pluginConfig`: [Config](README.md#config), `context`: [Context](README.md#context), `meta`: [Meta](README.md#meta)): *Promise‹void›*
 
-*Defined in [src/lib/prepare-branch.ts:8](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/prepare-branch.ts#L8)*
+*Defined in [src/lib/prepare-branch.ts:8](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/prepare-branch.ts#L8)*
 
 Prepare creates and checks out to dummyBranch.
 and adds data to meta
@@ -1053,7 +1204,7 @@ ___
 
 ▸ **pull**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
 
-*Defined in [src/lib/git.ts:165](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L165)*
+*Defined in [src/lib/git.ts:172](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L172)*
 
 **Parameters:**
 
@@ -1075,7 +1226,7 @@ ___
 
 ▸ **push**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
 
-*Defined in [src/lib/git.ts:134](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L134)*
+*Defined in [src/lib/git.ts:141](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L141)*
 
 **Parameters:**
 
@@ -1100,7 +1251,7 @@ ___
 
 ▸ **rebase**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
 
-*Defined in [src/lib/git.ts:173](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L173)*
+*Defined in [src/lib/git.ts:180](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L180)*
 
 **Parameters:**
 
@@ -1120,7 +1271,7 @@ ___
 
 ▸ **removeBranch**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹void›*
 
-*Defined in [src/lib/git.ts:249](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L249)*
+*Defined in [src/lib/git.ts:251](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L251)*
 
 **Parameters:**
 
@@ -1128,7 +1279,7 @@ ___
 
 Name | Type | Default |
 ------ | ------ | ------ |
-`branch` | string | - |
+`branchName` | string | - |
 `fromLocal` | boolean | true |
 `fromRemote` | boolean | false |
 `remote` | string | "origin" |
@@ -1144,7 +1295,7 @@ ___
 
 ▸ **reset**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
 
-*Defined in [src/lib/git.ts:180](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L180)*
+*Defined in [src/lib/git.ts:187](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L187)*
 
 **Parameters:**
 
@@ -1165,7 +1316,7 @@ ___
 
 ▸ **safeReadFile**(`path`: string): *Promise‹string | null›*
 
-*Defined in [src/lib/safe-read-file.ts:5](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/safe-read-file.ts#L5)*
+*Defined in [src/lib/safe-read-file.ts:7](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/safe-read-file.ts#L7)*
 
 **Parameters:**
 
@@ -1181,7 +1332,7 @@ ___
 
 ▸ **stashPop**(`options`: object, `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
 
-*Defined in [src/lib/git.ts:223](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L223)*
+*Defined in [src/lib/git.ts:226](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L226)*
 
 **Parameters:**
 
@@ -1198,7 +1349,7 @@ ___
 
 ▸ **stashPush**(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹ExecaReturnValue‹string››*
 
-*Defined in [src/lib/git.ts:209](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L209)*
+*Defined in [src/lib/git.ts:212](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L212)*
 
 **Parameters:**
 
@@ -1219,7 +1370,7 @@ ___
 
 ▸ **status**<**T**>(`__namedParameters`: object, `execaOptions?`: ExecaOptions): *Promise‹never[] | T extends true ? string[] : string›*
 
-*Defined in [src/lib/git.ts:192](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L192)*
+*Defined in [src/lib/git.ts:199](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L199)*
 
 **Type parameters:**
 
@@ -1243,7 +1394,7 @@ ___
 
 ▸ **verifyConditions**(`pluginConfig`: [Config](README.md#config), `context`: [Context](README.md#context), `meta`: [Meta](README.md#meta)): *Promise‹void›*
 
-*Defined in [src/lib/verify.ts:26](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/verify.ts#L26)*
+*Defined in [src/lib/verify.ts:27](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/verify.ts#L27)*
 
 We want to run this script only in CI when triggered by a pull request to one
 of the release branches (release branches defined in a semantic-release
@@ -1272,25 +1423,25 @@ Name | Type | Default |
 
 ### ▪ **branch**: *object*
 
-*Defined in [src/lib/git.ts:290](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L290)*
+*Defined in [src/lib/git.ts:292](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L292)*
 
 ###  exists
 
 • **exists**: *[branchExists](README.md#branchexists)* = branchExists
 
-*Defined in [src/lib/git.ts:291](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L291)*
+*Defined in [src/lib/git.ts:293](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L293)*
 
 ###  list
 
 • **list**: *[listBranches](README.md#listbranches)* = listBranches
 
-*Defined in [src/lib/git.ts:293](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L293)*
+*Defined in [src/lib/git.ts:295](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L295)*
 
 ###  remove
 
 • **remove**: *[removeBranch](README.md#removebranch)* = removeBranch
 
-*Defined in [src/lib/git.ts:292](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L292)*
+*Defined in [src/lib/git.ts:294](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L294)*
 
 ___
 
@@ -1298,16 +1449,16 @@ ___
 
 ### ▪ **stash**: *object*
 
-*Defined in [src/lib/git.ts:228](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L228)*
+*Defined in [src/lib/git.ts:231](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L231)*
 
 ###  pop
 
 • **pop**: *[stashPop](README.md#stashpop)* = stashPop
 
-*Defined in [src/lib/git.ts:230](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L230)*
+*Defined in [src/lib/git.ts:233](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L233)*
 
 ###  push
 
 • **push**: *[stashPush](README.md#stashpush)* = stashPush
 
-*Defined in [src/lib/git.ts:229](https://github.com/JuroOravec/semantic-release-changelog-update/blob/bf63d08/src/lib/git.ts#L229)*
+*Defined in [src/lib/git.ts:232](https://github.com/JuroOravec/semantic-release-changelog-update/blob/24ddc13/src/lib/git.ts#L232)*
