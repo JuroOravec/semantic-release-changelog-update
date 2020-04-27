@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/docs-yes-brightgreen.svg)](https://github.com/JuroOravec/semantic-release-changelog-update/tree/master/docs)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](#-contributing)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://tldrlegal.com/license/mit-license)
-[![Package Size](https://img.shields.io/bundlephobia/min/instance-manager)](https://bundlephobia.com/result?p=instance-manager)
+[![Package Size](https://img.shields.io/bundlephobia/min/semantic-release-changelog-update)](https://bundlephobia.com/result?p=semantic-release-changelog-update)
 
 [![Build Status](https://travis-ci.org/JuroOravec/semantic-release-changelog-update.svg?branch=master)](https://travis-ci.org/JuroOravec/semantic-release-changelog-update)
 ![Dependencies](https://david-dm.org/JuroOravec/semantic-release-changelog-update.svg)
