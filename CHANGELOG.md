@@ -1,3 +1,5 @@
+## [1.1.3](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.2...v1.1.3) (2020-04-27)
+
 ## [1.1.1](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.0...v1.1.1) (2020-04-27)
 
 

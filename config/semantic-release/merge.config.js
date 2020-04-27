@@ -1,5 +1,5 @@
 // @ts-nocheck
-const defaultConfig = require('./config');
+const { config: defaultConfig } = require('./config');
 
 const config = {
   ...defaultConfig,
