@@ -242,6 +242,12 @@ describe('changelogUpdate', () => {
                   baseBranch,
                   changelogFile: chlogEnv.file,
                   releaseBranches: [baseBranch],
+                  // Ensure that that the dummy commits trigger release.
+                  releaseRules: [
+                    { message: '*chore\\(test\\)*', release: 'patch' },
+                    { message: '*fix\\(test)*', release: 'patch' },
+                    { message: '*feat\\(test\\)*', release: 'minor' },
+                  ],
                 },
               }),
             envDefaults,
