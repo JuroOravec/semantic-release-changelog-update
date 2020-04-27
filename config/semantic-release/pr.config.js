@@ -23,10 +23,8 @@ if (branches !== undefined) {
 // commit CHANGELOG.md so it can still be review before the merge.
 config.plugins = [
   // Plugin calls release-notes-generator, changelog and git plugins itself,
-  // so we don't have to include them here. But the plugin must be BEFORE
-  // the commit-analyzer plugin.
+  // so we don't have to include them here.
   [plugin, pluginOptions],
-  '@semantic-release/commit-analyzer',
 ];
 
 module.exports = config;
