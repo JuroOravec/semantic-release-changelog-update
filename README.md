@@ -326,7 +326,7 @@ Give a ⭐️if this project helped you!
 
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/semantic-release-changelog-update)
 - [Quora](https://www.quora.com/search?q=%22semantic-release-changelog-update%22)
-- [Spectrum community](https://spectrum.chat/semantic-release-changelog-update)
+- [Spectrum community](https://spectrum.chat/sem-rel-chlog-update)
 
 ## 🔗 Related Projects
 
