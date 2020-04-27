@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.0...v1.1.1) (2020-04-27)
+
+
+### Bug Fixes
+
+* fix not deleting dummyBranch on no release ([e845e94](https://github.com/JuroOravec/semantic-release-changelog-update/commit/e845e945faf828966a82c6a3b8a3d181c17a6057))
+
 # [1.1.0](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.0.0...v1.1.0) (2020-04-26)
 
 
