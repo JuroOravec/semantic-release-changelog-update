@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.6...v1.1.7) (2020-05-03)
+
+
+### Bug Fixes
+
+* **logging:** fix package name detection by debug ([3fc932b](https://github.com/JuroOravec/semantic-release-changelog-update/commit/3fc932b052898373325759624116e06a07a58be6))
+
 ## [1.1.6](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.5...v1.1.6) (2020-04-27)
 
 ## [1.1.5](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.4...v1.1.5) (2020-04-27)
