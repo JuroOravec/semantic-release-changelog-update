@@ -1,0 +1,84 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-DOTPROP-543489:
+    - '@semantic-release/commit-analyzer > conventional-changelog-angular > compare-func > dot-prop':
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - '@semantic-release/release-notes-generator > conventional-changelog-angular > compare-func > dot-prop':
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - '@semantic-release/release-notes-generator > conventional-changelog-writer > compare-func > dot-prop':
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - semantic-release > @semantic-release/commit-analyzer > conventional-changelog-angular > compare-func > dot-prop:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - semantic-release > @semantic-release/release-notes-generator > conventional-changelog-angular > compare-func > dot-prop:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - semantic-release > @semantic-release/release-notes-generator > conventional-changelog-writer > compare-func > dot-prop:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - semantic-release > @semantic-release/npm > npm > update-notifier > configstore > dot-prop:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - semantic-release > @semantic-release/npm > npm > libnpx > update-notifier > configstore > dot-prop:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+  SNYK-JS-YARGSPARSER-560381:
+    - '@semantic-release/commit-analyzer > conventional-commits-parser > meow > yargs-parser':
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - '@semantic-release/release-notes-generator > conventional-commits-parser > meow > yargs-parser':
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - '@semantic-release/release-notes-generator > conventional-changelog-writer > meow > yargs-parser':
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - semantic-release > @semantic-release/commit-analyzer > conventional-commits-parser > meow > yargs-parser:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - semantic-release > @semantic-release/release-notes-generator > conventional-commits-parser > meow > yargs-parser:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.863Z'
+    - semantic-release > @semantic-release/release-notes-generator > conventional-changelog-writer > meow > yargs-parser:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.874Z'
+    - semantic-release > @semantic-release/npm > npm > libnpx > yargs > yargs-parser:
+        reason: no patch available
+        expires: '2020-06-06T07:16:30.874Z'
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - '@semantic-release/commit-analyzer > lodash':
+        patched: '2020-05-07T07:13:43.291Z'
+    - '@semantic-release/git > lodash':
+        patched: '2020-05-07T07:13:43.291Z'
+    - '@semantic-release/release-notes-generator > lodash':
+        patched: '2020-05-07T07:13:43.291Z'
+    - semantic-release > lodash:
+        patched: '2020-05-07T07:13:43.291Z'
+    - '@semantic-release/commit-analyzer > conventional-commits-parser > lodash':
+        patched: '2020-05-07T07:13:43.291Z'
+    - '@semantic-release/release-notes-generator > conventional-commits-parser > lodash':
+        patched: '2020-05-07T07:13:43.291Z'
+    - semantic-release > @semantic-release/commit-analyzer > lodash:
+        patched: '2020-05-07T07:13:43.291Z'
+    - '@semantic-release/release-notes-generator > conventional-changelog-writer > lodash':
+        patched: '2020-05-07T07:13:43.291Z'
+    - semantic-release > @semantic-release/release-notes-generator > lodash:
+        patched: '2020-05-07T07:13:43.291Z'
+    - semantic-release > @semantic-release/github > lodash:
+        patched: '2020-05-07T07:13:43.291Z'
+    - semantic-release > @semantic-release/npm > lodash:
+        patched: '2020-05-07T07:13:43.291Z'
+    - semantic-release > @semantic-release/commit-analyzer > conventional-commits-parser > lodash:
+        patched: '2020-05-07T07:13:43.291Z'
+    - semantic-release > @semantic-release/release-notes-generator > conventional-commits-parser > lodash:
+        patched: '2020-05-07T07:13:43.291Z'
+    - semantic-release > @semantic-release/release-notes-generator > conventional-changelog-writer > lodash:
+        patched: '2020-05-07T07:13:43.291Z'
+    - '@semantic-release/changelog > lodash':
+        patched: '2020-05-07T07:13:43.291Z'
