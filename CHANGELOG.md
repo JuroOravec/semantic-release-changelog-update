@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.7...v1.1.8) (2020-05-11)
+
+
+### Bug Fixes
+
+* **deps:** bump execa from 4.0.0 to 4.0.1 ([0781b39](https://github.com/JuroOravec/semantic-release-changelog-update/commit/0781b39729d393cd5ff182e412e81422b378e3d6))
+
 ## [1.1.7](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.6...v1.1.7) (2020-05-03)
 
 
