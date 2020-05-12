@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.7...v1.1.8) (2020-05-12)
+
+
+### Bug Fixes
+
+* **test:** fix broken tests broken by dep update ([f1b80c0](https://github.com/JuroOravec/semantic-release-changelog-update/commit/f1b80c024610e343d93eedd0fb21330fbd366c87))
+
 ## [1.1.7](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.6...v1.1.7) (2020-05-03)
 
 
