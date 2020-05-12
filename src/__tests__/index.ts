@@ -1,6 +1,7 @@
 import { randomBytes } from 'crypto';
 import path from 'path';
 import envCi from 'env-ci';
+import type { Options } from 'semantic-release';
 
 import { changelogUpdate } from '../index';
 import {
@@ -49,7 +50,9 @@ describe('changelogUpdate', () => {
   const headBranch = `temp/test/${runId}/headbranch`;
   const baseBranch = `temp/test/${runId}/basebranch`;
   const otherBranch = `temp/test/${runId}/other`;
-  const srBranches = isCi ? [ciBranch] : [otherBranch, headBranch, baseBranch];
+  const srBranches: Options['branches'] = isCi
+    ? [ciBranch!]
+    : [otherBranch, headBranch, baseBranch];
 
   /**
    * Mocks
