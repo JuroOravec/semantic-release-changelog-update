@@ -31,7 +31,7 @@ export default async function cleanup(
     );
   }
 
-  // Since we don't have a way to instanciate multiple plugins, the meta object
+  // Since we don't have a way to instantiate multiple plugins, the meta object
   // is shared among all of them. So we remove the props here so the plugin can
   // be used for the second time
   clean(meta);
