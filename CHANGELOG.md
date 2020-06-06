@@ -1,3 +1,10 @@
+## [1.1.9](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.8...v1.1.9) (2020-06-06)
+
+
+### Bug Fixes
+
+* upgrade @types/semantic-release from 17.0.0 to 17.0.1 ([bc32505](https://github.com/JuroOravec/semantic-release-changelog-update/commit/bc325058145b4051e7e76d32a08c7869681480c6))
+
 ## [1.1.8](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.7...v1.1.8) (2020-05-12)
 
 
