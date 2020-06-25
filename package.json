@@ -65,7 +65,7 @@
     "@commitlint/travis-cli": "^8.3.5",
     "@semantic-release/npm": "^7.0.5",
     "@types/env-ci": "^3.1.0",
-    "@types/jest": "^25.2.1",
+    "@types/jest": "^26.0.3",
     "@types/rimraf": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^2.29.0",
     "@typescript-eslint/parser": "^2.29.0",
