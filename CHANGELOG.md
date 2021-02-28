@@ -1,3 +1,10 @@
+## [1.1.9](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.8...v1.1.9) (2020-05-14)
+
+
+### Bug Fixes
+
+* **deps:** bump @types/semver from 7.1.0 to 7.2.0 ([928286b](https://github.com/JuroOravec/semantic-release-changelog-update/commit/928286b8c76e5af44f856ed1b31e78dedf04591f))
+
 ## [1.1.8](https://github.com/JuroOravec/semantic-release-changelog-update/compare/v1.1.7...v1.1.8) (2020-05-12)
 
 
